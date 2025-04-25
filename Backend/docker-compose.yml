@@ -1,0 +1,11 @@
+# Comes from:
+# - https://hub.docker.com/_/mysql
+services:
+  pg:
+    image: postgres:17.4
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
