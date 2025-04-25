@@ -62,44 +62,6 @@ CREATE TABLE public.event (
 
 
 --
--- Name: event_area_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.event_area_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: event_area_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.event_area_id_seq OWNED BY public.event.area_id;
-
-
---
--- Name: event_creator_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.event_creator_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: event_creator_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.event_creator_id_seq OWNED BY public.event.creator_id;
-
-
---
 -- Name: event_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -132,48 +94,10 @@ CREATE TABLE public.schema_migrations (
 --
 
 CREATE TABLE public.subscription (
-    area_id bigint NOT NULL,
     user_id bigint NOT NULL,
+    area_id bigint NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
-
-
---
--- Name: subscription_areaid_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.subscription_areaid_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: subscription_areaid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.subscription_areaid_seq OWNED BY public.subscription.user_id;
-
-
---
--- Name: subscription_userid_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.subscription_userid_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: subscription_userid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.subscription_userid_seq OWNED BY public.subscription.area_id;
 
 
 --
@@ -223,34 +147,6 @@ ALTER TABLE ONLY public.event ALTER COLUMN id SET DEFAULT nextval('public.event_
 
 
 --
--- Name: event creator_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.event ALTER COLUMN creator_id SET DEFAULT nextval('public.event_creator_id_seq'::regclass);
-
-
---
--- Name: event area_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.event ALTER COLUMN area_id SET DEFAULT nextval('public.event_area_id_seq'::regclass);
-
-
---
--- Name: subscription area_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscription ALTER COLUMN area_id SET DEFAULT nextval('public.subscription_userid_seq'::regclass);
-
-
---
--- Name: subscription user_id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subscription ALTER COLUMN user_id SET DEFAULT nextval('public.subscription_areaid_seq'::regclass);
-
-
---
 -- Name: user id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -294,7 +190,7 @@ ALTER TABLE ONLY public.schema_migrations
 --
 
 ALTER TABLE ONLY public.subscription
-    ADD CONSTRAINT subscription_pkey PRIMARY KEY (area_id, user_id);
+    ADD CONSTRAINT subscription_pkey PRIMARY KEY (user_id, area_id);
 
 
 --
@@ -330,19 +226,19 @@ ALTER TABLE ONLY public.event
 
 
 --
--- Name: subscription subscription_areaid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: subscription subscription_area_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subscription
-    ADD CONSTRAINT subscription_areaid_fkey FOREIGN KEY (user_id) REFERENCES public.area(id);
+    ADD CONSTRAINT subscription_area_id_fkey FOREIGN KEY (area_id) REFERENCES public.area(id);
 
 
 --
--- Name: subscription subscription_userid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: subscription subscription_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subscription
-    ADD CONSTRAINT subscription_userid_fkey FOREIGN KEY (area_id) REFERENCES public."user"(id);
+    ADD CONSTRAINT subscription_user_id_fkey FOREIGN KEY (user_id) REFERENCES public."user"(id);
 
 
 --
@@ -355,5 +251,4 @@ ALTER TABLE ONLY public.subscription
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20250425054138'),
-    ('20250425063737');
+    ('20250425054138');
