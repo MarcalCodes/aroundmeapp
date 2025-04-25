@@ -1,9 +1,22 @@
 {
+  "name": "aroundmeapp_backend",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Ingrid Marcal",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "migrate": "TODO",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "mysql2": "^3.14.0",
-    "nodemon": "^3.1.10",
-    "save": "^2.9.0"
+    "express": "5.1.0",
+    "mysql2": "3.14.0"
+  },
+  "devDependencies": {
+    "dotenv": "16.5.0",
+    "nodemon": "3.1.9",
+    "tsx": "4.19.3"
   }
 }
