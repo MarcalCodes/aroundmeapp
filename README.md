@@ -13,30 +13,36 @@ subscribed to this area
 
 ## Tools used
 
-- Mysql
-- Prisma, for the DB migrations and DB queries
-- Raw SQL, to manipulate the data in the DB
+- PostgresSQL, for the Database
+- [dbmate](https://github.com/amacneil/dbmate), for the DB migrations
+- [Postgres.js](https://github.com/porsager/postgres) and SQL, to query the DB
 - ExpressJS & JS, to code the API
 - JetBrains HTTP Files, to play with the API
 
+## Pre-requisite
+
+1. Install Docker
+2. Install `pg_dump` (needed for `dbmate`). See https://www.bytebase.com/reference/postgres/how-to/how-to-install-pgdump-on-mac-ubuntu-centos-windows/
+
+## Running and migrating the DB
+
+```bash
+# Start the Docker compose, starting PostgresSQL server
+npm run db_up
+
+# Create the app DB and run the migrations
+npm run db_migrate
+
+# Optional. Stop the PostgresSQL server
+npm run db_down
+```
+
 ## Running the server locally
+
+// TODO
 
 In a bash console:
 ```bash
-# 1. Reset DB
-npm run reset_db
-
-# 2. Migrate DB (optional. Already done by `reset_db`)
-npm run migrate
-
-# 3. Generate Prisma Client
-npm run genPrismaClient
-
-# 4. Run the server
-npm run dev
-
-# 5. (Optional) Open Prisma Studio, to look into the DB
-npm run studio
 ```
 
 

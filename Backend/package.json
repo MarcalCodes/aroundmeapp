@@ -7,7 +7,9 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "migrate": "TODO",
+    "db_up": "docker compose up -d",
+    "db_down": "docker compose down",
+    "db_migrate": "dbmate up",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -15,6 +17,7 @@
     "mysql2": "3.14.0"
   },
   "devDependencies": {
+    "dbmate": "2.26.0",
     "dotenv": "16.5.0",
     "nodemon": "3.1.9",
     "tsx": "4.19.3"
