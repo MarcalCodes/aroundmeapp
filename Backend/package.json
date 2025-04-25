@@ -6,7 +6,7 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "node --env-file=.env --watch server.js",
     "db_up": "docker compose up -d",
     "db_down": "docker compose down",
     "db_migrate": "dbmate up",
@@ -14,12 +14,11 @@
   },
   "dependencies": {
     "express": "5.1.0",
-    "mysql2": "3.14.0"
+    "mysql2": "3.14.0",
+    "postgres": "3.4.5"
   },
   "devDependencies": {
     "dbmate": "2.26.0",
-    "dotenv": "16.5.0",
-    "nodemon": "3.1.9",
     "tsx": "4.19.3"
   }
 }

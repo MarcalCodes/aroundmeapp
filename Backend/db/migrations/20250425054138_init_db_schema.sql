@@ -19,12 +19,12 @@ CREATE TABLE "area"
 
 CREATE TABLE "subscription"
 (
-    userId     BIGINT                   NOT NULL references "user" (id),
-    areaId     BIGINT                   NOT NULL references "area" (id),
+    user_id    BIGINT                   NOT NULL references "user" (id),
+    area_id    BIGINT                   NOT NULL references "area" (id),
 
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    PRIMARY KEY (userId, areaId)
+    PRIMARY KEY (user_id, area_id)
 );
 
 CREATE TABLE "event"
