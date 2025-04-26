@@ -6,13 +6,13 @@ import App from './App.jsx'
 import {createTheme, MantineProvider} from '@mantine/core';
 
 const mantineTheme = createTheme({
-    /** Put your mantine theme override here */
+  /** Put your mantine theme override here */
 });
 
 createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        <MantineProvider theme={mantineTheme} defaultColorScheme="auto">
-            <App/>
-        </MantineProvider>
-    </StrictMode>,
+  <StrictMode>
+    <MantineProvider theme={mantineTheme} defaultColorScheme="auto">
+      <App/>
+    </MantineProvider>
+  </StrictMode>,
 )
