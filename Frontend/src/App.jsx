@@ -1,11 +1,9 @@
 import {AppShell, Burger, Flex, Group, UnstyledButton} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
-import {Route, Routes, useNavigate} from "react-router";
-import {Home} from "./pages/Home.jsx"
-import {Login} from "./pages/Login.jsx";
-import {NotFound} from "./pages/NotFound.jsx";
+import {useNavigate} from "react-router";
 import {NavBarSimple} from "./NavBarSimple.jsx";
 import {ThemeButton} from "./components/ThemeButton.jsx";
+import {Router} from "./Router.jsx";
 
 const App = () => {
   const [opened, {toggle}] = useDisclosure();
@@ -56,12 +54,7 @@ const App = () => {
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <Routes>
-          <Route index element={<Home/>}/>
-          <Route path="login" element={<Login/>}/>
-
-          <Route path='*' element={<NotFound/>}/>
-        </Routes>
+        <Router/>
       </AppShell.Main>
       <AppShell.Footer>
         <div>
