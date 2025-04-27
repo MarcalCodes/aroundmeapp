@@ -1,54 +1,39 @@
 // Copied from https://ui.mantine.dev/component/navbar-simple/
 
 import {useState} from 'react';
-import {
-  IconCalendarEvent, IconHeart,
-  IconHome,
-  IconLogin,
-  IconLogout,
-  IconMap,
-  IconSubscript,
-  IconUser,
-} from '@tabler/icons-react';
+import {IconLogin, IconLogout, IconUser} from '@tabler/icons-react';
 import {AppShell, ScrollArea} from '@mantine/core';
-import classes from './NavbarSimple.module.css';
+import classes from './NavBarMobile.module.css';
 import {useNavigate} from "react-router";
 
-const data = [
-  {link: '/', label: 'Home', icon: IconHome},
-  {link: '/events', label: 'Events', icon: IconCalendarEvent},
-  {link: '/areas', label: 'Areas', icon: IconMap},
-  {link: '/subscriptions', label: 'Subscriptions', icon: IconHeart},
-];
-
-export const NavBarSimple = () => {
+export const NavBarMobile = ({links}) => {
   const [active, setActive] = useState('Home');
   const navigate = useNavigate();
 
   // TODO: Implement
   const logout = () => {}
 
-  const links = data.map((item) => (
+  const elements = links.map((link) => (
     <a
       className={classes.link}
-      data-active={item.label === active || undefined}
-      href={item.link}
-      key={item.label}
+      data-active={link.label === active || undefined}
+      href={link.path}
+      key={link.label}
       onClick={(event) => {
         event.preventDefault();
-        setActive(item.label);
-        navigate(item.link)
+        setActive(link.label);
+        navigate(link.path)
       }}
     >
-      <item.icon className={classes.linkIcon} stroke={1.5}/>
-      <span>{item.label}</span>
+      <link.icon className={classes.linkIcon} stroke={1.5}/>
+      <span>{link.label}</span>
     </a>
   ));
 
   return (
     <nav className={classes.navbar}>
       <AppShell.Section grow component={ScrollArea}>
-        {links}
+        {elements}
       </AppShell.Section>
 
       <AppShell.Section className={classes.footer}>
