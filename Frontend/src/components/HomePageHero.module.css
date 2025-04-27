@@ -58,27 +58,10 @@
     }
 }
 
-.control {
-    height: 42px;
-    font-size: var(--mantine-font-size-md);
+.input {
+    background-color: var(--mantine-color-white);
 
-    &:not(:first-of-type) {
-        margin-left: var(--mantine-spacing-md);
-    }
-
-    @media (max-width: $mantine-breakpoint-xs) {
-        &:not(:first-of-type) {
-            margin-top: var(--mantine-spacing-md);
-            margin-left: 0;
-        }
-    }
-}
-
-.secondaryControl {
-    color: var(--mantine-color-white);
-    background-color: rgba(255, 255, 255, 0.4);
-
-    @mixin hover {
-        background-color: rgba(255, 255, 255, 0.45);
+    @mixin dark {
+        color: var(--mantine-color-dark-text);
     }
 }
