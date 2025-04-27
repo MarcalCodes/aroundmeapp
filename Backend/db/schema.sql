@@ -20,8 +20,10 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.area (
     id bigint NOT NULL,
-    postcode text,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    postcode text NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    suburb text NOT NULL,
+    state text NOT NULL
 );
 
 
@@ -162,14 +164,6 @@ ALTER TABLE ONLY public.area
 
 
 --
--- Name: area area_postcode_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.area
-    ADD CONSTRAINT area_postcode_key UNIQUE (postcode);
-
-
---
 -- Name: event event_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -251,4 +245,6 @@ ALTER TABLE ONLY public.subscription
 --
 
 INSERT INTO public.schema_migrations (version) VALUES
-    ('20250425054138');
+    ('20250425054138'),
+    ('20250427072351'),
+    ('20250427072551');
