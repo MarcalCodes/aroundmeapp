@@ -17,7 +17,7 @@ export const isAusPostcode = (value) => {
  * Validation for an AUS state
  */
 export const isAusState = (state) => {
-  const cleaned = state.trim().toLocaleLowerCase()
+  const cleaned = state.trim().toUpperCase()
 
   if (AustraliaStates.has(cleaned)) {
     return null
