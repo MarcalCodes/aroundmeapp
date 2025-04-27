@@ -2,25 +2,24 @@
 
 import cx from 'clsx';
 import {Button, Container, Overlay, Text, Title} from '@mantine/core';
-import classes from './HeroImageBackground.module.css';
+import classes from './HomePageHero.module.css';
 
-export const HeroImageBackground = () => {
+export const HomePageHero = () => {
   return (
     <div className={classes.wrapper}>
-      <Overlay color="#000" opacity={0.65} zIndex={1}/>
+      <Overlay color="#000" backgroundOpacity={0.20} zIndex={1}/>
 
       <div className={classes.inner}>
         <Title className={classes.title}>
-          Automated AI code reviews for{' '}
+          Around{' '}
           <Text component="span" inherit className={classes.highlight}>
-            any stack
+            Me
           </Text>
         </Title>
 
         <Container size={640}>
-          <Text size="lg" className={classes.description}>
-            Build more reliable software with AI companion. AI is also trained to detect lazy
-            developers who do nothing and just complain on Twitter.
+          <Text size="xl" fw={700} className={classes.description}>
+            Participate in events organised by your local communities
           </Text>
         </Container>
 

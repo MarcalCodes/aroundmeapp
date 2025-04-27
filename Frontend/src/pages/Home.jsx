@@ -1,10 +1,9 @@
-import {Title} from "@mantine/core";
-import {HeroImageBackground} from "../components/HeroImageBackground.jsx";
+import {HomePageHero} from "../components/HomePageHero.jsx";
 
 export const Home = () => {
   return (
     <>
-      <HeroImageBackground/>
+      <HomePageHero/>
     </>
   )
 }

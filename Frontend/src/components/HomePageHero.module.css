@@ -1,7 +1,7 @@
 .wrapper {
     position: relative;
     padding-top: 180px;
-    padding-bottom: 130px;
+    padding-bottom: 200px;
     background-image: url('../assets/img/gathering.webp');
     background-size: cover;
     background-position: center;
@@ -19,24 +19,22 @@
 
 .title {
     font-weight: 800;
-    font-size: 40px;
+    font-size: 60px;
     letter-spacing: -1px;
     padding-left: var(--mantine-spacing-md);
     padding-right: var(--mantine-spacing-md);
     color: var(--mantine-color-white);
     margin-bottom: var(--mantine-spacing-xs);
     text-align: center;
-    font-family: Greycliff CF,
-    var(--mantine-font-family);
+    font-family: Greycliff CF, var(--mantine-font-family);
 
     @media (max-width: $mantine-breakpoint-xs) {
         font-size: 28px;
-        text-align: left;
     }
 }
 
 .highlight {
-    color: var(--mantine-color-primary-4);
+    color: var(--mantine-color-blue-5);
 }
 
 .description {
@@ -45,7 +43,6 @@
 
     @media (max-width: $mantine-breakpoint-xs) {
         font-size: var(--mantine-font-size-md);
-        text-align: left;
     }
 }
 
