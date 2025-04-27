@@ -9,9 +9,9 @@ import {IconCalendarEvent, IconHeart, IconHome, IconMap} from "@tabler/icons-rea
 
 const links = [
   {path: '/', label: 'Home', icon: IconHome},
-  {path: '/events', label: 'Events', icon: IconCalendarEvent},
-  {path: '/areas', label: 'Areas', icon: IconMap},
-  {path: '/subscriptions', label: 'Subscriptions', icon: IconHeart},
+  {path: '/events', label: 'My Events', icon: IconCalendarEvent},
+  {path: '/areas', label: 'My Areas', icon: IconMap},
+  {path: '/subscriptions', label: 'My Subscriptions', icon: IconHeart},
 ];
 
 
