@@ -1,4 +1,4 @@
-import {AppShell, Burger, Flex, Group, UnstyledButton} from '@mantine/core';
+import {AppShell, Burger, Flex, Group, UnstyledButton, Text as MantineText} from '@mantine/core';
 import {useDisclosure} from '@mantine/hooks';
 import {useNavigate} from "react-router";
 import {NavBarSimple} from "./NavBarSimple.jsx";
@@ -35,7 +35,9 @@ const App = () => {
               hiddenFrom="sm"
               size="sm"
             />
-            <UnstyledButton onClick={() => navigate("/")}>Around Me</UnstyledButton>
+            <UnstyledButton ml={25} onClick={() => navigate("/")}>
+              <MantineText fw={700}>Around Me</MantineText>
+            </UnstyledButton>
           </Flex>
           <Flex
             gap="md"
