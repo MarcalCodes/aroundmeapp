@@ -1,10 +1,13 @@
-import {Button, Paper, Text, Title} from '@mantine/core';
+import {Button, Group, Paper, Text, Title} from '@mantine/core';
 import classes from './EventCard.module.css';
+import {useNavigate} from "react-router";
 
 /**
  * Card element copied from: https://mantine.dev/x/carousel/#example-cards-carousel
  */
-export const EventCard = ({image, title, category}) => {
+export const EventCard = ({id, image, title, category, editable}) => {
+  const navigate = useNavigate();
+
   return (
     <Paper
       shadow="xl"
@@ -21,9 +24,17 @@ export const EventCard = ({image, title, category}) => {
           {title}
         </Title>
       </div>
-      <Button variant="white" color="dark">
-        Read article
-      </Button>
+      <Group>
+        <Button variant="white" color="dark">
+          Read article
+        </Button>
+        {
+          editable &&
+            <Button variant="outline" color="white" onClick={() => navigate(`/events/${id}/edit`)}>
+              Edit
+            </Button>
+        }
+      </Group>
     </Paper>
   );
 }
