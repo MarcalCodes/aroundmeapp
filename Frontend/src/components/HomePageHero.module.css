@@ -5,6 +5,7 @@
     background-image: url('../assets/img/gathering.webp');
     background-size: cover;
     background-position: center;
+    box-shadow: var(--mantine-shadow-xl);
 
     @media (max-width: $mantine-breakpoint-xs) {
         padding-top: 80px;
