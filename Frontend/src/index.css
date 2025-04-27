@@ -1,0 +1,8 @@
+/*
+    Overrides the default dark background color of Mantine
+
+    See https://stackoverflow.com/a/78547932/29476271
+*/
+:root[data-mantine-color-scheme="dark"] {
+    --mantine-color-body: var(--mantine-color-dark-9) !important;
+}

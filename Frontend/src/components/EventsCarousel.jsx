@@ -48,7 +48,7 @@ const data = [
  *
  * Carousel copied from example: https://mantine.dev/x/carousel/#example-cards-carousel
  */
-export const EventsCarousel = () => {
+export const EventsCarousel = ({suburb}) => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
@@ -64,7 +64,7 @@ export const EventsCarousel = () => {
         <Title order={2} mb={10}>
           What's on in{' '}
           <Text component="span" inherit className={classes.highlight}>
-            {"<area>"}
+            {suburb ? suburb : "<area>"}
           </Text>
         </Title>
       </Center>

@@ -1,3 +1,16 @@
+/*
+    This is how you put a gradient on some text
+    See https://stackoverflow.com/a/69989367/29476271
+ */
 .highlight {
-    color: var(--mantine-color-blue-5);
+    color: transparent;
+    background-clip: text;
+
+    @mixin dark {
+        background-image: linear-gradient(125deg,rgba(0, 129, 167, 1) 0%, rgba(0, 175, 185, 1) 22%, rgba(253, 252, 220, 1) 45%, rgba(254, 217, 183, 1) 70%, rgba(240, 113, 103, 1) 100%);
+    }
+
+    @mixin light {
+        background-image: linear-gradient(125deg,rgba(247, 37, 133, 1) 0%, rgba(114, 9, 183, 1) 25%, rgba(58, 12, 163, 1) 50%, rgba(67, 97, 238, 1) 75%, rgba(76, 201, 240, 1) 100%);
+    }
 }
