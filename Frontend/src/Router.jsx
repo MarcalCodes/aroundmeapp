@@ -10,6 +10,7 @@ import {EventUpdate} from "./pages/EventUpdate.jsx";
 import {Areas} from "./pages/Areas.jsx";
 import {AreaEvents} from "./pages/AreaEvents.jsx";
 import {Subscriptions} from "./pages/Subscriptions.jsx";
+import {ForgotPassword} from "./pages/ForgotPassword.jsx";
 
 export const Router = () => {
   return (
@@ -19,6 +20,7 @@ export const Router = () => {
       {/* Session management */}
       <Route path="login" element={<Login/>}/>
       <Route path="sign-up" element={<SignUp/>}/>
+      <Route path="forgot-password" element={<ForgotPassword/>}/>
 
       {/* Events management */}
       <Route path="events" element={<Events/>}/>
