@@ -1,7 +1,9 @@
-import {Title} from "@mantine/core";
+import {AuthenticationForm} from "../components/AuthenticationForm.jsx";
 
 export const Login = () => {
   return (
-    <Title order={1}>Login</Title>
+    <>
+      <AuthenticationForm />
+    </>
   )
 }
