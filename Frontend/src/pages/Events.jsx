@@ -1,7 +1,7 @@
-import {Button, Container, Flex, Group, MultiSelect, Title} from "@mantine/core";
+import {Button, Container, Flex, Group, MultiSelect, Title, useMantineTheme} from "@mantine/core";
 import {useNavigate} from "react-router";
 import {EventsCarousel} from "../components/EventsCarousel.jsx";
-import {useSet} from "@mantine/hooks";
+import {useMediaQuery, useSet} from "@mantine/hooks";
 
 const allAreas = [
   "Forster",
@@ -11,6 +11,9 @@ const allAreas = [
 ]
 
 export const Events = () => {
+  const theme = useMantineTheme();
+  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+
   const navigate = useNavigate();
   const selectedAreas = useSet([])
   const shouldFilterArea = selectedAreas.size !== 0
@@ -29,12 +32,12 @@ export const Events = () => {
       <Container fluid my={10} mx={20}>
         <Group grow mb={20}>
           <Flex align="flex-start">
-            <Title order={1}>My Events</Title>
+            <Title order={mobile ? 2 : 1}>My Events</Title>
           </Flex>
 
           <Flex justify="flex-end">
             <Button
-              size="lg"
+              size={mobile ? "md" : "lg"}
               variant="gradient"
               gradient={{from: 'blue', to: 'orange', deg: 135}}
               onClick={() => navigate("/events/new")}
@@ -46,7 +49,7 @@ export const Events = () => {
         <Group>
           <MultiSelect
             placeholder="Filter by area"
-            w={"30%"}
+            w={mobile ? "100%" : "30%"}
             data={allAreas}
             onChange={addSelectArea}
           />
