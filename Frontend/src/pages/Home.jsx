@@ -1,7 +1,9 @@
-import {Title} from "@mantine/core";
+import {HomePageHero} from "../components/HomePageHero.jsx";
 
 export const Home = () => {
   return (
-    <Title order={1}>Home</Title>
+    <>
+      <HomePageHero/>
+    </>
   )
 }

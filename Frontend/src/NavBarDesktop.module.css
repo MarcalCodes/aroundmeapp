@@ -1,0 +1,19 @@
+.linkIcon {
+  color: light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2));
+}
+
+.button {
+  color: buttonText;
+
+  &[data-active] {
+    &,
+    &:hover {
+      background-color: var(--mantine-color-blue-light);
+      color: var(--mantine-color-blue-light-color);
+
+      .linkIcon {
+        color: var(--mantine-color-blue-light-color);
+      }
+    }
+  }
+}
