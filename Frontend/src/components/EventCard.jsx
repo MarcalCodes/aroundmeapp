@@ -25,8 +25,8 @@ export const EventCard = ({id, image, title, category, editable}) => {
         </Title>
       </div>
       <Group>
-        <Button variant="white" color="dark">
-          Read article
+        <Button variant="white" color="dark" onClick={() => navigate(`/events/${id}`)}>
+          See event details
         </Button>
         {
           editable &&
