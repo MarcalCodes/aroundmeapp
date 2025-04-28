@@ -7,7 +7,7 @@ import {NotFound} from "./pages/NotFound.jsx";
 import {EventCreate} from "./pages/EventCreate.jsx";
 import {EventDetails} from "./pages/EventDetails.jsx";
 import {EventUpdate} from "./pages/EventUpdate.jsx";
-import {Areas} from "./pages/Areas.jsx";
+import {AreasList} from "./pages/AreasList.jsx";
 import {AreaEvents} from "./pages/AreaEvents.jsx";
 import {Subscriptions} from "./pages/Subscriptions.jsx";
 import {ForgotPassword} from "./pages/ForgotPassword.jsx";
@@ -29,7 +29,7 @@ export const Router = () => {
       <Route path="events/:id/edit" element={<EventUpdate/>}/>
 
       {/* Areas management */}
-      <Route path="areas" element={<Areas/>}/>
+      <Route path="areas" element={<AreasList/>}/>
       <Route path="areas/events" element={<Subscriptions/>}/>
       <Route path="areas/:id/events" element={<AreaEvents/>}/>
 
