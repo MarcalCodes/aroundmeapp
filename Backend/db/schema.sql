@@ -247,4 +247,5 @@ ALTER TABLE ONLY public.subscription
 INSERT INTO public.schema_migrations (version) VALUES
     ('20250425054138'),
     ('20250427072351'),
-    ('20250427072551');
+    ('20250427072551'),
+    ('20250428094335');
