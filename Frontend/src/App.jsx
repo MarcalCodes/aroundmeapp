@@ -6,6 +6,8 @@ import {Router} from "./Router.jsx";
 import {NavBarMobile} from "./NavBarMobile.jsx";
 import {NavBarDesktop} from "./NavBarDesktop.jsx";
 import {IconCalendarEvent, IconHeart, IconHome, IconMap} from "@tabler/icons-react";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const links = [
   {path: '/', label: 'Home', icon: IconHome},
@@ -17,6 +19,22 @@ const links = [
 const App = () => {
   const [opened, {toggle}] = useDisclosure();
   const navigate = useNavigate();
+
+  const [areas, setAreas] = useState([]);
+
+  useEffect(() => {
+    const fetchAreas = async () => {
+      try {
+        const response = await axios.get('/areas');
+        setAreas(response.data);
+        console.log('Fetched areas:', response.data); // Optional debug
+      } catch (error) {
+        console.error('Error fetching areas:', error);
+      }
+    };
+
+    fetchAreas();
+  }, []);
 
   return (
     <AppShell
