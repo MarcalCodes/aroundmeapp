@@ -8,7 +8,6 @@ import {EventCreate} from "./pages/EventCreate.jsx";
 import {EventDetails} from "./pages/EventDetails.jsx";
 import {EventUpdate} from "./pages/EventUpdate.jsx";
 import {AreasList} from "./pages/AreasList.jsx";
-import {AreaEvents} from "./pages/AreaEvents.jsx";
 import {ForgotPassword} from "./pages/ForgotPassword.jsx";
 
 export const Router = () => {
@@ -29,7 +28,6 @@ export const Router = () => {
 
       {/* Areas management */}
       <Route path="areas" element={<AreasList/>}/>
-      <Route path="areas/:id/events" element={<AreaEvents/>}/>
 
       <Route path='*' element={<NotFound/>}/>
     </Routes>
