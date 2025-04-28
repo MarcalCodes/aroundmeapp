@@ -4,6 +4,7 @@ import {
   Container,
   Group,
   keys,
+  Pagination,
   ScrollArea,
   Table,
   Text,
@@ -62,7 +63,7 @@ const compareStrings = (a, b) => a.localeCompare(b)
  */
 const compareNumbers = (a, b) => a - b
 
-function sortData(data, sortBy, search, reversed) {
+function sortAndFilterData(data, sortBy, search, reversed) {
   const type = typeof data[0][sortBy]
   const compare = type === "number" ? compareNumbers : compareStrings
   const noNeedForSorting = !sortBy
@@ -108,31 +109,41 @@ export const AreasList = () => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
+  // Subscriptions management
+  // Copied from "Table with selection" example in https://ui.mantine.dev/category/tables/
   const [subscriptions, setSubscriptions] = useState(fakeSubscribedAreas);
   const subscribe = (postcode) =>
     setSubscriptions((current) =>
       current.includes(postcode) ? current.filter((item) => item !== postcode) : [...current, postcode]
     );
 
+  // Sorting and filtering management
+  // Copied from "Table with search and sort" example in https://ui.mantine.dev/category/tables/
   const [search, setSearch] = useState('');
-  const [sortedData, setSortedData] = useState(fakeAllAreas);
+  const [filteredAndSortedData, setFilteredAndSortedData] = useState(fakeAllAreas);
   const [sortBy, setSortBy] = useState(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
+
+  // Pagination management
+  // See:
+  //  - https://mantine.dev/core/pagination
+  const numberOfElementPerPage = 10 // Could be configurable by the user
+  const [activePage, setPage] = useState(1);
 
   const setSorting = (field) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
     setSortBy(field);
-    setSortedData(sortData(fakeAllAreas, field, search, reversed));
+    setFilteredAndSortedData(sortAndFilterData(fakeAllAreas, field, search, reversed));
   }
 
   const handleSearchChange = (event) => {
     const {value} = event.currentTarget;
     setSearch(value);
-    setSortedData(sortData(fakeAllAreas, sortBy, value, reverseSortDirection));
+    setFilteredAndSortedData(sortAndFilterData(fakeAllAreas, sortBy, value, reverseSortDirection));
   }
 
-  const rows = sortedData.map((area, index) => {
+  const rows = filteredAndSortedData.map((area, index) => {
     const selected = subscriptions.includes(area.postcode);
 
     return (
@@ -148,11 +159,27 @@ export const AreasList = () => {
     );
   });
 
+  const paginatedRows = () => {
+    const start = (activePage - 1) * numberOfElementPerPage
+    const end = start + numberOfElementPerPage
+
+    return rows.slice(start, end)
+  }
+
+  const numberOfPages = () => {
+    if (rows.length <= 0) return 0
+    else {
+      const isEvenNumberOfRows = rows.length % numberOfElementPerPage === 0
+      const numberOfPages = rows.length / numberOfElementPerPage
+      return isEvenNumberOfRows ? numberOfPages : (numberOfPages + 1)
+    }
+  }
+
   return (
     <Container fluid my={10} mx={20}>
       <Title order={mobile ? 2 : 1} mb={50}>My Areas</Title>
 
-      <ScrollArea>
+      <ScrollArea mb={20}>
         <TextInput
           placeholder="Search by any field"
           mb="md"
@@ -197,7 +224,7 @@ export const AreasList = () => {
           <Table.Tbody>
             {
               rows.length > 0 ? (
-                rows
+                paginatedRows()
               ) : (
                 <Table.Tr>
                   <Table.Td>
@@ -209,6 +236,11 @@ export const AreasList = () => {
           </Table.Tbody>
         </Table>
       </ScrollArea>
+      <Pagination
+        total={numberOfPages()}
+        value={activePage}
+        onChange={setPage}
+      />
     </Container>
   )
 }
