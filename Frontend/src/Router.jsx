@@ -2,7 +2,7 @@ import {Route, Routes} from "react-router";
 import {Home} from "./pages/Home.jsx";
 import {Login} from "./pages/Login.jsx";
 import {SignUp} from "./pages/SignUp.jsx";
-import {Events} from "./pages/Events.jsx";
+import {EventsList} from "./pages/EventsList.jsx";
 import {NotFound} from "./pages/NotFound.jsx";
 import {EventCreate} from "./pages/EventCreate.jsx";
 import {EventDetails} from "./pages/EventDetails.jsx";
@@ -23,7 +23,7 @@ export const Router = () => {
       <Route path="forgot-password" element={<ForgotPassword/>}/>
 
       {/* Events management */}
-      <Route path="events" element={<Events/>}/>
+      <Route path="events" element={<EventsList/>}/>
       <Route path="events/new" element={<EventCreate/>}/>
       <Route path="events/:id" element={<EventDetails/>}/>
       <Route path="events/:id/edit" element={<EventUpdate/>}/>

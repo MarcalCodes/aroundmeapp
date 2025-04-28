@@ -3,12 +3,14 @@ import {isAusPostcode, isAusState} from "../utils/validations.js";
 import {
   Autocomplete,
   Button,
+  Center,
   CloseButton,
   Container,
   Group,
   Stack,
   Text,
-  TextInput, Title,
+  TextInput,
+  Title,
   useMantineTheme
 } from "@mantine/core";
 import {AustraliaStates} from "../utils/australia.js";
@@ -16,6 +18,7 @@ import {DateTimePicker} from "@mantine/dates";
 import {Dropzone, IMAGE_MIME_TYPE} from "@mantine/dropzone";
 import {IconPhoto, IconUpload, IconX} from "@tabler/icons-react";
 import {useMediaQuery} from "@mantine/hooks";
+import {DEFAULT_DATE_FORMAT} from "../utils/dates.js";
 
 /**
  * Form & Dropzone usage example: https://help.mantine.dev/q/how-to-use-dropzone-with-form
@@ -90,7 +93,7 @@ export const EventForm = ({title, buttonText, initialValues, handleFormSubmit}) 
     mode: 'uncontrolled',
     initialValues: initialValues,
     validate: {
-      eventName: isNotEmpty(),
+      title: isNotEmpty(),
       addressLine1: isNotEmpty(),
       addressLine2: (value) => null, // No validation
       addressPostcode: (value) => isAusPostcode(value),
@@ -105,14 +108,16 @@ export const EventForm = ({title, buttonText, initialValues, handleFormSubmit}) 
 
   return (
     <Container size={500} my={40}>
-      <Title order={1} mb={20}>{title}</Title>
+      <Center>
+        <Title order={1} mb={20}>{title}</Title>
+      </Center>
       <form onSubmit={form.onSubmit(handleFormSubmit)}>
         <Stack>
           <TextInput
             withAsterisk
             label="Event name"
-            key={form.key('eventName')}
-            {...form.getInputProps('eventName')}
+            key={form.key('title')}
+            {...form.getInputProps('title')}
           />
 
           <Stack gap={5}>
@@ -155,7 +160,7 @@ export const EventForm = ({title, buttonText, initialValues, handleFormSubmit}) 
             placeholder="Pick date and time"
             key={form.key('startAt')}
             {...form.getInputProps('startAt')}
-            valueFormat="DD MMM YYYY hh:mm A"
+            valueFormat={DEFAULT_DATE_FORMAT}
           />
 
           <DateTimePicker
@@ -164,7 +169,7 @@ export const EventForm = ({title, buttonText, initialValues, handleFormSubmit}) 
             placeholder="Pick date and time"
             key={form.key('endsAt')}
             {...form.getInputProps('endsAt')}
-            valueFormat="DD MMM YYYY hh:mm A"
+            valueFormat={DEFAULT_DATE_FORMAT}
           />
 
           <ImageDropzone form={form}/>

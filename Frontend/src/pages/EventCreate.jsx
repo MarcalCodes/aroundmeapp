@@ -4,7 +4,7 @@ import {EventForm} from "../components/EventForm.jsx";
 export const EventCreate = () => {
 
   const initialValues = {
-    eventName: '',
+    title: '',
     addressLine1: '',
     addressLine2: '',
     addressPostcode: '',

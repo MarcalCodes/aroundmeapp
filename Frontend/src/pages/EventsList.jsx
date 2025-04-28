@@ -10,7 +10,7 @@ const allAreas = [
   "Smith Lakes"
 ]
 
-export const Events = () => {
+export const EventsList = () => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 

@@ -1,9 +1,9 @@
 import {EventForm} from "../components/EventForm.jsx";
 
 const fakeEvent = {
-  eventName: 'Fake event',
+  title: 'Fake event',
   addressLine1: '24-26 Queensland Ave',
-  addressLine2: '',
+  addressLine2: 'Unit 2',
   addressPostcode: '4218',
   addressCity: 'Gold Coast City',
   addressState: 'QLD',
