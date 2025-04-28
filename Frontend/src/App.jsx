@@ -11,7 +11,6 @@ const links = [
   {path: '/', label: 'Home', icon: IconHome},
   {path: '/events', label: 'My Events', icon: IconCalendarEvent},
   {path: '/areas', label: 'My Areas', icon: IconMap},
-  {path: '/subscriptions', label: 'My Subscriptions', icon: IconHeart},
 ];
 
 
