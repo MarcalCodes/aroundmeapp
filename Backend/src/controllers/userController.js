@@ -1,6 +1,7 @@
 import * as Users from "../models/users.js"
 import * as Areas from "../models/areas.js"
 import * as Events from "../models/events.js"
+import bcrypt from 'bcrypt';
 
 const getUsers = async () => {
     return Users.all()
@@ -16,12 +17,20 @@ const getUser = async (id, res) => {
 }
 
 const createUser = async (data, res) => {
-    await Users.insert(data.email, data.name)
-    res.status(201).end();
-}
+    try {
+        const { email, firstname, lastname, password } = data;
+        const passwordHash = await bcrypt.hash(password, 10);
+        const user = await Users.insert({ email, firstname, lastname, passwordHash });
+
+        res.status(201).json(user);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
 
 const updateUser = async (id, data, res) => {
-    await Users.update(id, data.email, data.name)
+    await Users.update(id, data.email, data.firstname, data.lastname);
     res.status(200).end();
 }
 
@@ -48,5 +57,4 @@ export {
     deleteUser,
     allAreasOfUser,
     allEventsOfUsers
-
 }

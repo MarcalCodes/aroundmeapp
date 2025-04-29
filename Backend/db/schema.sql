@@ -109,9 +109,11 @@ CREATE TABLE public.subscription (
 CREATE TABLE public."user" (
     id bigint NOT NULL,
     email text NOT NULL,
-    name text NOT NULL,
+    firstname text NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp with time zone
+    updated_at timestamp with time zone,
+    lastname text DEFAULT ''::text NOT NULL,
+    passwordhash text DEFAULT ''::text NOT NULL
 );
 
 
@@ -248,4 +250,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250425054138'),
     ('20250427072351'),
     ('20250427072551'),
-    ('20250428094335');
+    ('20250428094335'),
+    ('20250429044158');
