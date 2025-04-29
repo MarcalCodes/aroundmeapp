@@ -18,10 +18,13 @@ import {
 } from '@mantine/core';
 import {useForm} from '@mantine/form';
 import classes from "../components/AuthenticationForm.module.css";
+import axios from "axios";
+import {useNavigate} from "react-router";
 
 export const AuthenticationForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -34,13 +37,30 @@ export const AuthenticationForm = () => {
     },
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async (values) => {
     setLoading(true);
     setError(null);
-    setTimeout(() => {
+
+    try {
+      await axios.post('http://localhost:3000/users', {
+        email: values.email,
+        firstname: values.firstName,
+        lastname: values.lastName,
+        password: values.password,
+      });
+
+      console.log('User created successfully!');
+      navigate("/login");
+    } catch (error) {
+      console.error('Error creating user', error);
+      if (error.response && error.response.status === 409) {
+        setError('User with this email already exists');
+      } else {
+        setError('Something went wrong, please try again.');
+      }
+    } finally {
       setLoading(false);
-      setError('User with this email already exists');
-    }, 3000);
+    }
   };
 
   return (
