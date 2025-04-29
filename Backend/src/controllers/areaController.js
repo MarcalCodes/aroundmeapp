@@ -3,7 +3,8 @@ import * as Users from "../models/users.js"
 import * as Events from  "../models/events.js";
 
 const getAreas = async () => {
-    return Areas.all()
+    const areas = await Areas.all();
+    return areas;
 }
 
 const getArea = async (id, res) => {
