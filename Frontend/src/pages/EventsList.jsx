@@ -2,13 +2,9 @@ import {Button, Container, Flex, Group, MultiSelect, Title, useMantineTheme} fro
 import {useNavigate} from "react-router";
 import {EventsCarousel} from "../components/EventsCarousel.jsx";
 import {useMediaQuery, useSet} from "@mantine/hooks";
+import {useContext} from "react";
+import {AreasContext} from "../context/AreasContext.jsx";
 
-const allAreas = [
-  "Forster",
-  "Boomerang Beach",
-  "Blueys Beach",
-  "Smith Lakes"
-]
 
 export const EventsList = () => {
   const theme = useMantineTheme();
@@ -16,6 +12,11 @@ export const EventsList = () => {
 
   const navigate = useNavigate();
   const selectedAreas = useSet([])
+
+  const areas = useContext(AreasContext);
+  const allAreas = [...new Set(areas.map(area => area.suburb))].slice(0, 30);
+
+
   const shouldFilterArea = selectedAreas.size !== 0
   const displayedArea =
     shouldFilterArea

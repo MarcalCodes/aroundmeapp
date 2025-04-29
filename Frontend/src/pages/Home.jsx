@@ -1,8 +1,15 @@
+import {useContext} from "react";
+import {AreasContext} from "../context/AreasContext.jsx";
 import {HomePageHero} from "../components/HomePageHero.jsx";
 import {EventsCarousel} from "../components/EventsCarousel.jsx";
-import {Box, Paper, Stack} from "@mantine/core";
+import {Box, Paper, Stack, Text, Title} from "@mantine/core";
+
 
 export const Home = () => {
+
+  const areas = useContext(AreasContext);
+  const featuredSuburbs = ["Forster", "Boomerang Beach", "Tuncurry"];
+
   return (
     <>
       <Stack
@@ -13,11 +20,14 @@ export const Home = () => {
         gap="lg"
       >
         <HomePageHero/>
-        <EventsCarousel/>
-        <EventsCarousel/>
-        <EventsCarousel/>
-        <EventsCarousel/>
+        {areas.length > 0 ? (
+          featuredSuburbs.map((suburbName, index) => (
+            <EventsCarousel key={index} suburb={suburbName}/>
+        ))
+        ) : (
+          <div>Loading areas...</div>
+        )}
       </Stack>
     </>
-  )
-}
+  );
+};
