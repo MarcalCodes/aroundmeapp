@@ -14,42 +14,46 @@ import {
   useMantineTheme
 } from "@mantine/core";
 import {useMediaQuery} from "@mantine/hooks";
-import {useState} from "react";
+import {useState, useContext, useEffect} from "react";
+import {AreasContext} from "../context/AreasContext.jsx";
 import cx from 'clsx';
 import classes from './AreasList.module.css'
 import {IconChevronDown, IconChevronUp, IconSearch, IconSelector} from "@tabler/icons-react";
 
-const fakeAllAreas = [
-  {suburb: "Forster", postcode: "2428", state: "NSW", subscribed: 10},
-  {suburb: "St Kilda", postcode: "3182", state: "VIC", subscribed: 10},
-  {suburb: "New Farm", postcode: "4005", state: "QLD", subscribed: 12},
-  {suburb: "Glenelg", postcode: "5045", state: "SA", subscribed: 10},
-  {suburb: "Fremantle", postcode: "6160", state: "WA", subscribed: 10},
-  {suburb: "Battery Point", postcode: "7004", state: "TAS", subscribed: 20},
-  {suburb: "Nightcliff", postcode: "0810", state: "NT", subscribed: 10},
-  {suburb: "Kingston", postcode: "2604", state: "ACT", subscribed: 10},
-  {suburb: "Byron Bay", postcode: "2481", state: "NSW", subscribed: 10},
-  {suburb: "South Yarra", postcode: "3141", state: "VIC", subscribed: 10},
-  {suburb: "Paddington", postcode: "4064", state: "QLD", subscribed: 8},
-  {suburb: "Henley Beach", postcode: "5022", state: "SA", subscribed: 10},
-  {suburb: "Cottesloe", postcode: "6011", state: "WA", subscribed: 10},
-  {suburb: "Sandy Bay", postcode: "7005", state: "TAS", subscribed: 2},
-  {suburb: "Palmerston", postcode: "0830", state: "NT", subscribed: 10},
-  {suburb: "Braddon", postcode: "2612", state: "ACT", subscribed: 10},
-  {suburb: "Manly", postcode: "2095", state: "NSW", subscribed: 1},
-  {suburb: "Richmond", postcode: "3121", state: "VIC", subscribed: 0},
-  {suburb: "Toowong", postcode: "4066", state: "QLD", subscribed: 10},
-  {suburb: "Norwood", postcode: "5067", state: "SA", subscribed: 10}
-]
-
-const fakeSubscribedAreas = [
-  "2428",
-  "2095",
-  "5067"
-]
+//
+// const areas = [
+//   {suburb: "Forster", postcode: "2428", state: "NSW", subscribed: 10},
+//   {suburb: "St Kilda", postcode: "3182", state: "VIC", subscribed: 10},
+//   {suburb: "New Farm", postcode: "4005", state: "QLD", subscribed: 12},
+//   {suburb: "Glenelg", postcode: "5045", state: "SA", subscribed: 10},
+//   {suburb: "Fremantle", postcode: "6160", state: "WA", subscribed: 10},
+//   {suburb: "Battery Point", postcode: "7004", state: "TAS", subscribed: 20},
+//   {suburb: "Nightcliff", postcode: "0810", state: "NT", subscribed: 10},
+//   {suburb: "Kingston", postcode: "2604", state: "ACT", subscribed: 10},
+//   {suburb: "Byron Bay", postcode: "2481", state: "NSW", subscribed: 10},
+//   {suburb: "South Yarra", postcode: "3141", state: "VIC", subscribed: 10},
+//   {suburb: "Paddington", postcode: "4064", state: "QLD", subscribed: 8},
+//   {suburb: "Henley Beach", postcode: "5022", state: "SA", subscribed: 10},
+//   {suburb: "Cottesloe", postcode: "6011", state: "WA", subscribed: 10},
+//   {suburb: "Sandy Bay", postcode: "7005", state: "TAS", subscribed: 2},
+//   {suburb: "Palmerston", postcode: "0830", state: "NT", subscribed: 10},
+//   {suburb: "Braddon", postcode: "2612", state: "ACT", subscribed: 10},
+//   {suburb: "Manly", postcode: "2095", state: "NSW", subscribed: 1},
+//   {suburb: "Richmond", postcode: "3121", state: "VIC", subscribed: 0},
+//   {suburb: "Toowong", postcode: "4066", state: "QLD", subscribed: 10},
+//   {suburb: "Norwood", postcode: "5067", state: "SA", subscribed: 10}
+// ]
+//
+// const fakeSubscribedAreas = [
+//   "2428",
+//   "2095",
+//   "5067"
+// ]
 
 function filterData(areas, search) {
   const query = search.trim().toLowerCase();
+
+  if (!areas || areas.length === 0) return [];
 
   return areas.filter((area) =>
     keys(areas[0]).some((key) => area[key].toString().toLowerCase().includes(query))
@@ -64,6 +68,8 @@ const compareStrings = (a, b) => a.localeCompare(b)
 const compareNumbers = (a, b) => a - b
 
 function sortAndFilterData(data, sortBy, search, reversed) {
+  if (!data || data.length === 0) return [];
+
   const type = typeof data[0][sortBy]
   const compare = type === "number" ? compareNumbers : compareStrings
   const noNeedForSorting = !sortBy
@@ -106,12 +112,13 @@ const SortingTh = ({children, reversed, sorted, onSort}) => {
  * Table sorting and filtering mechanism copied from "Table with search and sort" example in https://ui.mantine.dev/category/tables/
  */
 export const AreasList = () => {
+  const areas = useContext(AreasContext);
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
   // Subscriptions management
   // Copied from "Table with selection" example in https://ui.mantine.dev/category/tables/
-  const [subscriptions, setSubscriptions] = useState(fakeSubscribedAreas);
+  const [subscriptions, setSubscriptions] = useState([]);
   const subscribe = (postcode) =>
     setSubscriptions((current) =>
       current.includes(postcode) ? current.filter((item) => item !== postcode) : [...current, postcode]
@@ -120,7 +127,7 @@ export const AreasList = () => {
   // Sorting and filtering management
   // Copied from "Table with search and sort" example in https://ui.mantine.dev/category/tables/
   const [search, setSearch] = useState('');
-  const [filteredAndSortedData, setFilteredAndSortedData] = useState(fakeAllAreas);
+  const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
   const [sortBy, setSortBy] = useState(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
 
@@ -130,20 +137,24 @@ export const AreasList = () => {
   const numberOfElementPerPage = 10 // Could be configurable by the user
   const [activePage, setPage] = useState(1);
 
+  useEffect(() => {
+    setFilteredAndSortedData(areas);
+  }, [areas]);
+
   const setSorting = (field) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
     setReverseSortDirection(reversed);
     setSortBy(field);
-    setFilteredAndSortedData(sortAndFilterData(fakeAllAreas, field, search, reversed));
+    setFilteredAndSortedData(sortAndFilterData(areas, field, search, reversed));
   }
 
   const handleSearchChange = (event) => {
     const {value} = event.currentTarget;
     setSearch(value);
-    setFilteredAndSortedData(sortAndFilterData(fakeAllAreas, sortBy, value, reverseSortDirection));
+    setFilteredAndSortedData(sortAndFilterData(areas, sortBy, value, reverseSortDirection));
   }
 
-  const rows = filteredAndSortedData.map((area, index) => {
+  const rows = (filteredAndSortedData || []).map((area, index) => {
     const selected = subscriptions.includes(area.postcode);
 
     return (

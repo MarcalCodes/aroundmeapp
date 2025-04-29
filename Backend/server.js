@@ -3,11 +3,14 @@ import userRoutes from './src/routes/userRoutes.js'
 import areaRoutes from './src/routes/areaRoutes.js'
 import eventRoutes from './src/routes/eventRoutes.js'
 import subscriptionRoutes from './src/routes/subscriptionRoutes.js'
+import cors from 'cors';
 
 const app = express()
 const port = 3000
 
+app.use(cors());
 app.use(express.json());
+
 app.use('/users', userRoutes);
 app.use('/areas', areaRoutes);
 app.use('/events', eventRoutes);
