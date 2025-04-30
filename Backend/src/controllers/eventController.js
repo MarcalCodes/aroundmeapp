@@ -10,14 +10,14 @@ const getEvent = async (id, res) => {
 }
 
 const createEvent = async (data, res) => {
-    const { name, startsAt, endsAt, creatorId, areaId } = data
-    await Events.insert(name, startsAt, endsAt, creatorId, areaId)
+    const { name, startsAt, endsAt, creatorId, areaId, img} = data
+    await Events.insert(name, startsAt, endsAt, creatorId, areaId, img)
     res.status(201).end();
 }
 
 const updateEvent = async (id, data, res) => {
-    const { name, startsAt, endsAt, creatorId, areaId } = data
-    await Events.update(id, name, startsAt, endsAt, creatorId, areaId)
+    const { name, startsAt, endsAt, creatorId, areaId, img } = data
+    await Events.update(id, name, startsAt, endsAt, creatorId, areaId, img)
     res.status(200).end();
 }
 
