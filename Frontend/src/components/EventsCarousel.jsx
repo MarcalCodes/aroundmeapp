@@ -1,8 +1,9 @@
 import {EventCard} from "./EventCard.jsx";
 import {Carousel} from "@mantine/carousel";
-import {Box, Center, Group, Title, Text, useMantineTheme} from "@mantine/core";
+import {Box, Center, Group, Title, Text, useMantineTheme, Flex} from "@mantine/core";
 import classes from "./EventsCarousel.module.css";
 import {useMediaQuery} from "@mantine/hooks";
+import {Button} from "@mantine/core";
 
 const data = [
   {
@@ -58,6 +59,7 @@ export const EventsCarousel = ({suburb}) => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
+
   const slides = data.map((item, index) => (
     <Carousel.Slide key={index}>
       <EventCard {...item} editable={true} />
@@ -67,12 +69,23 @@ export const EventsCarousel = ({suburb}) => {
   return (
     <Box my={20}>
       <Center>
-        <Title order={2} mb={10}>
-          What's on in{' '}
-          <Text component="span" inherit className={classes.highlight}>
-            {suburb ? suburb : "<area>"}
-          </Text>
-        </Title>
+        <Group >
+          <Title order={2} mb={10}>
+            What's on in{' '}
+            <Text component="span" inherit className={classes.highlight}>
+              {suburb ? suburb : "<area>"}
+            </Text>
+          </Title>
+          <Flex align="center" justify="center" mb={10} wrap="wrap" gap="sm">
+            <Button
+              size={mobile ? "compact-sm" : "compact-sm"}
+              variant= "subtle"
+              radius="md"
+            >
+              Subscribe
+            </Button>
+          </Flex>
+        </Group>
       </Center>
       <Carousel
         slideSize={{base: '100%', sm: '30%'}}
