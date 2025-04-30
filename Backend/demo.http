@@ -207,3 +207,28 @@ Content-Type: application/json
 }
 ### Step 2: Check session
 GET http://localhost:3000/me
+
+
+### Login to create session
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "email": "marcal.delaine@gmail.com",
+  "password": "password123"
+}
+
+###
+
+### Check session (should return user)
+GET http://localhost:3000/me
+
+###
+
+### Logout and destroy session
+POST http://localhost:3000/logout
+
+###
+
+### Check session again (should return 401)
+GET http://localhost:3000/me
