@@ -59,7 +59,8 @@ CREATE TABLE public.event (
     area_id bigint NOT NULL,
     canceled_at timestamp with time zone,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp with time zone
+    updated_at timestamp with time zone,
+    image text
 );
 
 
@@ -251,4 +252,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250427072351'),
     ('20250427072551'),
     ('20250428094335'),
-    ('20250429044158');
+    ('20250429044158'),
+    ('20250430152902');

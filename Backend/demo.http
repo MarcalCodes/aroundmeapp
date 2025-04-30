@@ -232,3 +232,32 @@ POST http://localhost:3000/logout
 
 ### Check session again (should return 401)
 GET http://localhost:3000/me
+
+### Create new event with image
+POST http://localhost:3000/events
+Content-Type: application/json
+
+{
+  "name": "Sunset Yoga",
+  "startsAt": "2025-05-01T17:00:00.000Z",
+  "endsAt": "2025-05-01T18:30:00.000Z",
+  "creatorId": 4,
+  "areaId": 2,
+  "img": "https://example.com/yoga.png"
+}
+
+### Update an existing event with a new image
+PUT http://localhost:3000/events/15
+Content-Type: application/json
+
+{
+  "name": "Updated Sunset Yoga",
+  "startsAt": "2025-05-01T17:00:00.000Z",
+  "endsAt": "2025-05-01T18:45:00.000Z",
+  "creatorId": 4,
+  "areaId": 4,
+  "img": "https://example.com/yoga-updated.jpg"
+}
+
+
+
