@@ -1,11 +1,34 @@
 // Copied from "Authentication form with title" example in https://ui.mantine.dev/category/authentication/
 
-import {Anchor, Button, Checkbox, Container, Group, Paper, PasswordInput, Text, TextInput, Title,} from '@mantine/core';
+
+import {Anchor, Button, Checkbox, Container, Group, Paper, PasswordInput, Text, TextInput, Title} from '@mantine/core';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import axios from 'axios';
 import classes from './AuthenticationForm.module.css';
-import {useNavigate} from "react-router";
 
 export const AuthenticationForm = () => {
   const navigate = useNavigate();
+
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        'http://localhost:3000/login',
+        { email, password },
+        { withCredentials: true }
+      );
+      console.log('Login successful:', res.data);
+      navigate('/');
+    } catch (err) {
+      console.error('Login failed:', err.response?.data?.message || err.message);
+    }
+  };
 
   return (
     <Container size={420} my={40}>
@@ -19,19 +42,35 @@ export const AuthenticationForm = () => {
         </Anchor>
       </Text>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <TextInput label="Email" placeholder="you@example.com" required/>
-        <PasswordInput label="Password" placeholder="Your password" required mt="md"/>
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md" component="form" onSubmit={handleLogin}>
+        <TextInput
+          label="Email"
+          placeholder="you@example.com"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          required
+          mt="md"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
         <Group justify="space-between" mt="lg">
-          <Checkbox label="Remember me"/>
+          <Checkbox label="Remember me" />
           <Anchor component="button" size="sm" onClick={() => navigate("/forgot-password")}>
             Forgot password?
           </Anchor>
         </Group>
-        <Button fullWidth mt="xl">
+
+        <Button fullWidth mt="xl" type="submit">
           Sign in
         </Button>
       </Paper>
     </Container>
   );
-}
+};
