@@ -5,6 +5,18 @@ import {IconCalendarEvent, IconHeart, IconHome, IconLogin, IconLogout, IconMap, 
 import {Button, Divider, Group} from '@mantine/core';
 import classes from './NavBarDesktop.module.css';
 import {useNavigate} from "react-router";
+import axios from "axios";
+
+const logout = async () => {
+  try {
+    await axios.post('http://localhost:3000/logout', {}, {
+      withCredentials: true,
+    });
+    console.log('User logged out');
+  } catch (err) {
+    console.error('Logout failed:', err.message);
+  }
+};
 
 const NavBarButton = ({navigate, active, setActive, link}) => {
   return (
@@ -53,16 +65,28 @@ const SignUpButton = ({navigate, setActive, active}) =>
     }}
   />
 
-const LogoutButton = ({navigate, setActive}) =>
-  <NavBarButton
-    navigate={navigate}
-    setActive={setActive}
-    link={{
-      path: "/",
-      label: "Logout",
-      icon: IconLogout
-    }}
-  />
+const LogoutButton = ({navigate, setActive}) => {
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    await logout();
+    setActive('Home');
+    navigate('/');
+  };
+
+  return (
+    <Button
+      p={4}
+      m={0}
+      size="compact"
+      variant="transparent"
+      leftSection={<IconLogout className={classes.linkIcon} stroke={1.5}/>}
+      onClick={handleLogout}
+      className={classes.button}
+    >
+      <span>Logout</span>
+    </Button>
+  );
+};
 
 export const NavBarDesktop = ({links}) => {
   const [active, setActive] = useState('Home');
