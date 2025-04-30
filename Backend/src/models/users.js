@@ -33,6 +33,9 @@ const getUsersByAreaSubscription = async (areaId) =>
                JOIN "user" As u ON s.user_id = u.id
       WHERE s.area_id = ${areaId};`;
 
+const findByEmail = async  (email) =>
+  sql `SELECT * FROM "user" WHERE email = ${email};`;
+
 
 export {
   all,
@@ -40,5 +43,6 @@ export {
   insert,
   update,
   remove,
-  getUsersByAreaSubscription
+  getUsersByAreaSubscription,
+  findByEmail
 };
