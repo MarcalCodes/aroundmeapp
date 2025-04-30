@@ -52,10 +52,11 @@ const App = () => {
         <Router/>
       </AppShell.Main>
       <AppShell.Footer>
-        <div>
-          © 2025 Around Me. All rights reserved.
-        </div>
+        <Flex justify="center" align="center">
+          <MantineText size="sm" ta="center">© 2025 Around Me. All rights reserved.</MantineText>
+        </Flex>
       </AppShell.Footer>
+
     </AppShell>
     </AreasProvider>
   );

@@ -20,6 +20,7 @@ export const HomePageHero = () => {
         <Container size={640}>
           <Text size="xl" fw={700} className={classes.description}>
             Participate in events organised by your local communities
+
           </Text>
         </Container>
 
