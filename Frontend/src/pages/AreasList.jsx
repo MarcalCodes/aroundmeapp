@@ -19,36 +19,10 @@ import {AreasContext} from "../context/AreasContext.jsx";
 import cx from 'clsx';
 import classes from './AreasList.module.css'
 import {IconChevronDown, IconChevronUp, IconSearch, IconSelector} from "@tabler/icons-react";
+import { useSearchParams } from "react-router-dom";
 
-//
-// const areas = [
-//   {suburb: "Forster", postcode: "2428", state: "NSW", subscribed: 10},
-//   {suburb: "St Kilda", postcode: "3182", state: "VIC", subscribed: 10},
-//   {suburb: "New Farm", postcode: "4005", state: "QLD", subscribed: 12},
-//   {suburb: "Glenelg", postcode: "5045", state: "SA", subscribed: 10},
-//   {suburb: "Fremantle", postcode: "6160", state: "WA", subscribed: 10},
-//   {suburb: "Battery Point", postcode: "7004", state: "TAS", subscribed: 20},
-//   {suburb: "Nightcliff", postcode: "0810", state: "NT", subscribed: 10},
-//   {suburb: "Kingston", postcode: "2604", state: "ACT", subscribed: 10},
-//   {suburb: "Byron Bay", postcode: "2481", state: "NSW", subscribed: 10},
-//   {suburb: "South Yarra", postcode: "3141", state: "VIC", subscribed: 10},
-//   {suburb: "Paddington", postcode: "4064", state: "QLD", subscribed: 8},
-//   {suburb: "Henley Beach", postcode: "5022", state: "SA", subscribed: 10},
-//   {suburb: "Cottesloe", postcode: "6011", state: "WA", subscribed: 10},
-//   {suburb: "Sandy Bay", postcode: "7005", state: "TAS", subscribed: 2},
-//   {suburb: "Palmerston", postcode: "0830", state: "NT", subscribed: 10},
-//   {suburb: "Braddon", postcode: "2612", state: "ACT", subscribed: 10},
-//   {suburb: "Manly", postcode: "2095", state: "NSW", subscribed: 1},
-//   {suburb: "Richmond", postcode: "3121", state: "VIC", subscribed: 0},
-//   {suburb: "Toowong", postcode: "4066", state: "QLD", subscribed: 10},
-//   {suburb: "Norwood", postcode: "5067", state: "SA", subscribed: 10}
-// ]
-//
-// const fakeSubscribedAreas = [
-//   "2428",
-//   "2095",
-//   "5067"
-// ]
+
+
 
 function filterData(areas, search) {
   const query = search.trim().toLowerCase();
@@ -126,7 +100,9 @@ export const AreasList = () => {
 
   // Sorting and filtering management
   // Copied from "Table with search and sort" example in https://ui.mantine.dev/category/tables/
-  const [search, setSearch] = useState('');
+  const [searchParams] = useSearchParams();
+  const defaultSearch = searchParams.get("search") || "";
+  const [search, setSearch] = useState(defaultSearch);
   const [filteredAndSortedData, setFilteredAndSortedData] = useState([]);
   const [sortBy, setSortBy] = useState(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
@@ -138,7 +114,7 @@ export const AreasList = () => {
   const [activePage, setPage] = useState(1);
 
   useEffect(() => {
-    setFilteredAndSortedData(areas);
+    setFilteredAndSortedData(sortAndFilterData(areas, sortBy, search, reverseSortDirection));
   }, [areas]);
 
   const setSorting = (field) => {
