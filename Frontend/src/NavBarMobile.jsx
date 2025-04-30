@@ -5,13 +5,23 @@ import {IconLogin, IconLogout, IconUser} from '@tabler/icons-react';
 import {AppShell, ScrollArea} from '@mantine/core';
 import classes from './NavBarMobile.module.css';
 import {useNavigate} from "react-router";
+import axios from "axios";
 
 export const NavBarMobile = ({links}) => {
   const [active, setActive] = useState('Home');
   const navigate = useNavigate();
 
-  // TODO: Implement
-  const logout = () => {}
+  const logout = async () => {
+    try {
+      await axios.post('http://localhost:3000/logout', {}, {
+        withCredentials: true,
+      });
+      console.log("User logged out (mobile)");
+    } catch (err) {
+      console.error("Mobile logout failed:", err.message);
+    }
+  };
+
 
   const elements = links.map((link) => (
     <a
