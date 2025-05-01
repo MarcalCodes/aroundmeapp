@@ -24,15 +24,15 @@ jobs:
       # See https://blog.jetbrains.com/idea/2022/12/http-client-cli-run-requests-and-tests-on-ci/
       - name: Install Jetbrains HTTP client
         run: |
-          cd Backend
           curl -f -L -o ijhttp.zip "https://jb.gg/ijhttp/latest" 
           
           # Comes from https://askubuntu.com/a/86852
           unzip ijhttp.zip
-          rm ijhttp.zip
+          mv ijhttp/ijhttp Backend/ijhttp
+          mv ijhttp/lib Backend/lib
           
-          ls
-          ls ijhttp
+          cd backend
+          ls -al
 
       # See https://github.com/marketplace/actions/docker-compose-action
       - name: Start DB
