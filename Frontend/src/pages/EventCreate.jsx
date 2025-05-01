@@ -1,4 +1,5 @@
 import {EventForm} from "../components/EventForm.jsx";
+import axios from "axios";
 
 
 export const EventCreate = () => {
@@ -10,13 +11,13 @@ export const EventCreate = () => {
     addressPostcode: '',
     addressCity: '',
     addressState: '',
-    startAt: undefined,
+    startsAt: undefined,
     endsAt: undefined,
     image: undefined
   }
 
-  const handleFormSubmit = (values) => {
-    console.log(values)
+  const handleFormSubmit = async (values) => {
+    axios.post("http://localhost:3000/events", values)
   }
 
   return (

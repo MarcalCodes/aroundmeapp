@@ -10,15 +10,24 @@ const getEvent = async (id, res) => {
 }
 
 const createEvent = async (data, res) => {
+  // TODO:
+  //  - how to get the "creatorId"?
+  //  - one postcode can map to more than 1 area 🤔
   const {
-    name, startsAt, endsAt, creatorId, areaId, img, address_line1, address_line2, city, state, postcode
+    title, startsAt, endsAt, creatorId, areaId, image, addressLine1, addressLine2, addressCity, addressState, addressPostcode
   } = data;
 
-  await Events.insert(
-    name, startsAt, endsAt, creatorId, areaId, img, address_line1, address_line2, city, state, postcode
-  );
+  try {
+    await Events.insert(
+      title, startsAt, endsAt, creatorId, areaId, image, addressLine1, addressLine2, addressCity, addressState, addressPostcode
+    );
 
-  res.status(201).end();
+    res.status(201).end();
+  } catch (e) {
+    console.log(e)
+
+    res.status(500).end();
+  }
 };
 
 const updateEvent = async (id, data, res) => {

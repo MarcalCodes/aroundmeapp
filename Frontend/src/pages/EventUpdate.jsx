@@ -7,7 +7,7 @@ const fakeEvent = {
   addressPostcode: '4218',
   addressCity: 'Gold Coast City',
   addressState: 'QLD',
-  startAt: new Date(),
+  startsAt: new Date(),
   endsAt: new Date(),
   image: undefined
 }

@@ -19,6 +19,7 @@ import {Dropzone, IMAGE_MIME_TYPE} from "@mantine/dropzone";
 import {IconPhoto, IconUpload, IconX} from "@tabler/icons-react";
 import {useMediaQuery} from "@mantine/hooks";
 import {DEFAULT_DATE_FORMAT} from "../utils/dates.js";
+import {imageToBase64} from "../utils/images.js";
 
 /**
  * Form & Dropzone usage example: https://help.mantine.dev/q/how-to-use-dropzone-with-form
@@ -99,19 +100,27 @@ export const EventForm = ({title, buttonText, initialValues, handleFormSubmit}) 
       addressPostcode: (value) => isAusPostcode(value),
       addressCity: isNotEmpty(),
       addressState: (value) => isAusState(value),
-      startAt: isNotEmpty(),
+      startsAt: isNotEmpty(),
       endsAt: isNotEmpty(),
       image: isNotEmpty()
     },
   });
 
+  const doSubmit = async (values) => {
+    const encodedImage = await imageToBase64(values.image)
+    handleFormSubmit({...values, image: encodedImage})
+  }
+
+  const onError = (error) => {
+    console.log("onError", error)
+  }
 
   return (
     <Container size={500} my={40}>
       <Center>
         <Title order={1} mb={20}>{title}</Title>
       </Center>
-      <form onSubmit={form.onSubmit(handleFormSubmit)}>
+      <form onSubmit={form.onSubmit(doSubmit, onError)}>
         <Stack>
           <TextInput
             withAsterisk
@@ -158,8 +167,8 @@ export const EventForm = ({title, buttonText, initialValues, handleFormSubmit}) 
             withAsterisk
             label="Starts at"
             placeholder="Pick date and time"
-            key={form.key('startAt')}
-            {...form.getInputProps('startAt')}
+            key={form.key('startsAt')}
+            {...form.getInputProps('startsAt')}
             valueFormat={DEFAULT_DATE_FORMAT}
           />
 
