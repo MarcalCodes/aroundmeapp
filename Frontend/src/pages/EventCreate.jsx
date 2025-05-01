@@ -17,7 +17,7 @@ export const EventCreate = () => {
   }
 
   const handleFormSubmit = async (values) => {
-    axios.post("http://localhost:3000/events", values)
+    axios.post("http://localhost:3000/events", values, {withCredentials: true})
   }
 
   return (
