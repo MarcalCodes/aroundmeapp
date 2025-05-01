@@ -44,6 +44,6 @@ jobs:
       - name: Run integration tests
         uses: madhead/intellij-http-client-action@latest
         with:
-          insecure: true
+          docker_mode: true # See https://github.com/madhead/intellij-http-client-action/blob/main/action.yml#L44-L46
           files: |-
             ./Backend/login_tests.http
