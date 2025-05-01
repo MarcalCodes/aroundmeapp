@@ -16,6 +16,12 @@ const getUser = async (id, res) => {
     }
 }
 
+/**
+ * Comes from: "https://www.npmjs.com/package/bcrypt"
+ * Comes from: "https://expressjs.com/en/resources/middleware/session.html"
+ * Comes from: "https://expressjs.com/en/4x/api.html#res.clearCookie"
+ * Comes from: "https://github.com/expressjs/session#destroying-a-session"
+ */
 const createUser = async (data, res) => {
     try {
         const { email, firstname, lastname, password } = data;

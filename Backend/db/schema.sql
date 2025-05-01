@@ -113,8 +113,8 @@ CREATE TABLE public."user" (
     firstname text NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone,
-    lastname text DEFAULT ''::text NOT NULL,
-    passwordhash text DEFAULT ''::text NOT NULL
+    lastname text NOT NULL,
+    password_hash text NOT NULL
 );
 
 
@@ -251,6 +251,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250425054138'),
     ('20250427072351'),
     ('20250427072551'),
-    ('20250428094335'),
     ('20250429044158'),
     ('20250430152902');
