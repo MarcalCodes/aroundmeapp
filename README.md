@@ -37,6 +37,8 @@ subscribed to this area
 
 ## Backend - Running and migrating the DB
 
+1. Copy the `Backend/.env.template` file and rename your copy to `Backend/.env`
+2. In a bash console:
 ```bash
 # Go in the Backend project
 cd Backend
@@ -53,7 +55,7 @@ npm run db_down
 
 ## Backend - Running the server locally
 
-1. Copy the `.env.template` file and rename your copy to `.env`
+1. Copy the `Backend/.env.template` file and rename your copy to `Backend/.env`
 2. In a bash console:
 ```bash
 npm install
@@ -62,7 +64,7 @@ npm run dev
 
 ## Frontend - Running the app locally
 
-1. Copy the `.env.template` file and rename your copy to `.env`
+1. Copy the `Frontend/.env.template` file and rename your copy to `Frontend/.env`
 2. (Optional) Provide a Mapbox API key in the `.env` file so that the maps will load
 3. In a bash console:
 In a bash console:
