@@ -14,11 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v4
       with:
         node-version: 22.x
         cache: 'npm'
+    - name: Install Jetbrains HTTP client # See from https://blog.jetbrains.com/idea/2022/12/http-client-cli-run-requests-and-tests-on-ci/
+      run: |
+        curl -f -L -o ijhttp.zip "https://jb.gg/ijhttp/latest" 
+        
+        # Comes from https://askubuntu.com/a/86852
+        unzip ijhttp.zip
+        
+        ls
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
