@@ -48,6 +48,7 @@ jobs:
         run: |
           cd Backend
           npm i
+          mv .env.ci .env
           npm run db_migrate
           npm run server_ci &
           sleep 2
