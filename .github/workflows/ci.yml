@@ -31,7 +31,7 @@ jobs:
           mv ijhttp/ijhttp Backend/ijhttp
           mv ijhttp/lib Backend/lib
           
-          cd backend
+          cd Backend
           ls -al
 
       # See https://github.com/marketplace/actions/docker-compose-action
