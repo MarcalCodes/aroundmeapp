@@ -9,6 +9,11 @@ const get = async (id) =>
         FROM area
         WHERE id = ${id};`
 
+const findByPostcodeSuburbAndState = async (postcode, suburb, state) =>
+  sql`SELECT *
+        FROM area
+        WHERE postcode = ${postcode} AND suburb = ${suburb.toUpperCase()} AND state = ${state.toUpperCase()};`
+
 const all = async () =>
     sql`SELECT *
         FROM area;`
@@ -23,6 +28,7 @@ const getAllAreasOfUser = async (userId) =>
 export {
     all,
     get,
+    findByPostcodeSuburbAndState,
     insert,
     getAllAreasOfUser
 };

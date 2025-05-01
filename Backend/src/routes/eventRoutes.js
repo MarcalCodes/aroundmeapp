@@ -19,7 +19,7 @@ router.get('/:id', requireAuth, async (req, res) => {
  * Create a new event
  */
 router.post('/', requireAuth, async (req, res) => {
-    await eventController.createEvent(req.body, res)
+    await eventController.createEvent(req.body, req.session, res)
 })
 
 /**
