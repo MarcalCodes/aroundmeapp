@@ -9,12 +9,13 @@ const getEvent = async (id, res) => {
   }
 }
 
-const createEvent = async (data, res) => {
+const createEvent = async (data, session, res) => {
   // TODO:
-  //  - how to get the "creatorId"?
   //  - one postcode can map to more than 1 area 🤔
+  const creatorId = session.user.id
+
   const {
-    title, startsAt, endsAt, creatorId, areaId, image, addressLine1, addressLine2, addressCity, addressState, addressPostcode
+    title, startsAt, endsAt, areaId, image, addressLine1, addressLine2, addressCity, addressState, addressPostcode
   } = data;
 
   try {
