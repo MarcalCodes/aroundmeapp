@@ -1,7 +1,7 @@
 import sql from "../db.js"
 
 const insert = async ({email, firstname, lastname, passwordHash}) =>
-  sql`INSERT INTO "user" (email, firstname, lastname, passwordhash)
+  sql`INSERT INTO "user" (email, firstname, lastname, password_hash)
           VALUES (${email}, ${firstname}, ${lastname}, ${passwordHash})
               RETURNING id, email, firstname, lastname;`;
 
