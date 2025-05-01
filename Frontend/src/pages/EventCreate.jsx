@@ -1,8 +1,11 @@
 import {EventForm} from "../components/EventForm.jsx";
 import axios from "axios";
+import {errorNotification, successNotification} from "../utils/notifications.js";
+import {useNavigate} from "react-router";
 
 
 export const EventCreate = () => {
+  const navigate = useNavigate();
 
   const initialValues = {
     title: '',
@@ -17,7 +20,13 @@ export const EventCreate = () => {
   }
 
   const handleFormSubmit = async (values) => {
-    axios.post("http://localhost:3000/events", values, {withCredentials: true})
+    try {
+      const response = await axios.post("http://localhost:3000/events", values, {withCredentials: true})
+      successNotification("Event created")
+      navigate(`/events/${response.data.id}`)
+    } catch (e) {
+      errorNotification("An error happened", e.message)
+    }
   }
 
   return (
