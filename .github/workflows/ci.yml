@@ -29,8 +29,10 @@ jobs:
           
           # Comes from https://askubuntu.com/a/86852
           unzip ijhttp.zip
+          rm ijhttp.zip
           
           ls
+          ls ijhttp
 
       # See https://github.com/marketplace/actions/docker-compose-action
       - name: Start DB
