@@ -35,7 +35,8 @@ jobs:
         run: |
           cd Backend
           npm i
-          npm run server_ci
+          npm run server_ci &
+          sleep 2
 
       # See:
       #  - https://blog.jetbrains.com/idea/2022/12/http-client-cli-run-requests-and-tests-on-ci/#running-requests-from-the-terminal
