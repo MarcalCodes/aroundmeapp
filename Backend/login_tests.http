@@ -1,15 +1,6 @@
 # TODO:
 #  - Add explainations
 
-### Get all users - Before
-GET http://localhost:3000/users
-
-> {%
-  client.test("Contains 0 user", function () {
-    client.assert(response.body.length === 0)
-  })
-%}
-
 ### Create a new user - valid case
 POST http://localhost:3000/users
 Content-Type: application/json
@@ -39,18 +30,9 @@ Content-Type: application/json
 }
 
 > {%
-  client.test("Response status should be 400", function () {
-    client.assert(response.status === 400, "Incorrect status")
+  client.test("Response status should be 409", function () {
+    client.assert(response.status === 409, "Incorrect status")
     client.assert(response.body.message === "This email address is already used", "Incorrect message")
-  })
-%}
-
-### Get all users - After
-GET http://localhost:3000/users
-
-> {%
-  client.test("Contains 1 user", function () {
-    client.assert(response.body.length === 1)
   })
 %}
 
@@ -68,6 +50,17 @@ Content-Type: application/json
     client.assert(response.status === 200)
   })
 %}
+
+
+### Get all users - After
+GET http://localhost:3000/users
+
+> {%
+  client.test("Contains 1 user", function () {
+    client.assert(response.body.length === 1)
+  })
+%}
+
 
 ### Test login - invalid case - email doesn't exist
 POST http://localhost:3000/login
