@@ -23,7 +23,7 @@ export const Router = ({isLoggedIn, user, setUser}) => {
       {/* Events management */}
       <Route path="events" element={<EventsList/>}/>
       <Route path="events/new" element={<EventCreate/>}/>
-      <Route path="events/:id" element={<EventDetails/>}/>
+      <Route path="events/:id" element={<EventDetails user={user}/>}/>
       <Route path="events/:id/edit" element={<EventUpdate/>}/>
 
       {/* Areas management */}

@@ -1,11 +1,12 @@
 import * as Events from "../models/events.js"
 
 const getEvent = async (id, res) => {
-  const event = await Events.get(id)
-  if (event) {
-    res.json(event)
-  } else {
+  const events = await Events.get(id)
+
+  if (!events || events.lenghth === 0) {
     res.status(404).end()
+  } else {
+    res.json(events[0])
   }
 }
 
