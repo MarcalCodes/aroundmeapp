@@ -19,7 +19,7 @@ subscribed to this area
 - [dbmate](https://github.com/amacneil/dbmate), for the DB migrations
 - [Postgres.js](https://github.com/porsager/postgres) and SQL, to query the DB
 - Express.js & JS, to code the API
-- JetBrains HTTP Files, to play with the API
+- JetBrains HTTP Files, to play with the API and write integration tests
 
 ### Frontend
 
