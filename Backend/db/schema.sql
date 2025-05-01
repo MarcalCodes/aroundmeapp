@@ -60,7 +60,12 @@ CREATE TABLE public.event (
     canceled_at timestamp with time zone,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone,
-    image text
+    image text,
+    address_line1 text NOT NULL,
+    address_line2 text,
+    city text NOT NULL,
+    state text NOT NULL,
+    postcode text NOT NULL
 );
 
 
@@ -252,4 +257,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250427072351'),
     ('20250427072551'),
     ('20250429044158'),
-    ('20250430152902');
+    ('20250430152902'),
+    ('20250501052354');

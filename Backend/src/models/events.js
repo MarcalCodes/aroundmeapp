@@ -1,18 +1,55 @@
 import sql from "../db.js"
 
-const insert = async (name, startsAt, endsAt, creatorId, areaId, img) =>
-  sql`INSERT INTO event (name, starts_at, ends_at, creator_id, area_id, image)
-      VALUES (${name}, ${startsAt}, ${endsAt}, ${creatorId}, ${areaId}, ${img});`
+const insert = async (
+  name,
+  startsAt,
+  endsAt,
+  creatorId,
+  areaId,
+  img,
+  address_line1,
+  address_line2,
+  city,
+  state,
+  postcode
+) =>
+  sql`INSERT INTO event (
+        name, starts_at, ends_at, creator_id, area_id, image,
+        address_line1, address_line2, city, state, postcode
+      )
+      VALUES (
+        ${name}, ${startsAt}, ${endsAt}, ${creatorId}, ${areaId}, ${img},
+        ${address_line1}, ${address_line2}, ${city}, ${state}, ${postcode}
+      );`
 
-const update = async (id, name, startsAt, endsAt, creatorId, areaId, img) =>
+
+const update = async (
+  id,
+  name,
+  startsAt,
+  endsAt,
+  creatorId,
+  areaId,
+  img,
+  address_line1,
+  address_line2,
+  city,
+  state,
+  postcode
+) =>
   sql`UPDATE event
-      SET name       = ${name},
-          starts_at  = ${new Date(startsAt)},
-          ends_at    = ${new Date(endsAt)},
-          creator_id = ${creatorId},
-          area_id    = ${areaId},
-          image        =${img},
-          updated_at = ${new Date()}
+      SET name           = ${name},
+          starts_at      = ${new Date(startsAt)},
+          ends_at        = ${new Date(endsAt)},
+          creator_id     = ${creatorId},
+          area_id        = ${areaId},
+          image          = ${img},
+          address_line1  = ${address_line1},
+          address_line2  = ${address_line2},
+          city           = ${city},
+          state          = ${state},
+          postcode       = ${postcode},
+          updated_at     = ${new Date()}
       WHERE id = ${id};`
 
 const softDelete = async (id) =>
