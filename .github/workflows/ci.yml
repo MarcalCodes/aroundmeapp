@@ -21,6 +21,16 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'Backend'
 
+      # See https://blog.jetbrains.com/idea/2022/12/http-client-cli-run-requests-and-tests-on-ci/
+      - name: Install Jetbrains HTTP client
+        run: |
+          curl -f -L -o ijhttp.zip "https://jb.gg/ijhttp/latest" 
+          
+          # Comes from https://askubuntu.com/a/86852
+          unzip ijhttp.zip
+          
+          ls
+
       # See https://github.com/marketplace/actions/docker-compose-action
       - name: Start DB
         uses: hoverkraft-tech/compose-action@v2.2.0
@@ -38,12 +48,8 @@ jobs:
           npm run server_ci &
           sleep 2
 
-      # See:
-      #  - https://blog.jetbrains.com/idea/2022/12/http-client-cli-run-requests-and-tests-on-ci/#running-requests-from-the-terminal
-      #  - https://github.com/marketplace/actions/intellij-http-client-action
+      # See https://blog.jetbrains.com/idea/2022/12/http-client-cli-run-requests-and-tests-on-ci/#running-requests-from-the-terminal
       - name: Run integration tests
-        uses: madhead/intellij-http-client-action@latest
-        with:
-          docker_mode: true # See https://github.com/madhead/intellij-http-client-action/blob/main/action.yml#L44-L46
-          files: |-
-            ./Backend/login_tests.http
+        run: |
+          cd Backend
+          ./ijhttp login_tests.http
