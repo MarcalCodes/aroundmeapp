@@ -4,9 +4,9 @@
 import {Anchor, Button, Checkbox, Container, Group, Paper, PasswordInput, Text, TextInput, Title} from '@mantine/core';
 import {useState} from 'react';
 import {useNavigate} from 'react-router';
-import axios from 'axios';
 import classes from './AuthenticationForm.module.css';
-import {successNotification} from "../utils/notifications.js";
+import {errorNotification, successNotification} from "../utils/notifications.js";
+import axios from "axios";
 
 export const AuthenticationForm = ({setUser}) => {
   const navigate = useNavigate();
@@ -22,12 +22,15 @@ export const AuthenticationForm = ({setUser}) => {
       const res = await axios.post(
         'http://localhost:3000/login',
         {email, password},
+        {withCredentials: true}
       );
       setUser(res.data)
       successNotification('Login successful')
       navigate('/');
     } catch (err) {
-      console.error('Login failed:', err.response?.data?.message || err.message);
+      const message = err.response?.data?.message || err.message
+      console.error('Login failed:', message);
+      errorNotification('Login failed', message)
     }
   };
 
