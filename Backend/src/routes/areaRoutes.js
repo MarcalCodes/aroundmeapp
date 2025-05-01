@@ -7,7 +7,7 @@ const router = express.Router();
 /**
  * GET /areas
  */
-router.get('/', requireAuth, async (req, res) => {
+router.get('/', async (req, res) => {
     const areas = await areaController.getAreas()
     res.json(areas)
 })

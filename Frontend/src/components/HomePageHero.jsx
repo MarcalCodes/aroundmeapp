@@ -1,31 +1,27 @@
 // Copied from "Hero with background image" example in https://ui.mantine.dev/category/hero/#hero-image-background
 
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import {useContext, useState} from "react";
+import {useNavigate} from "react-router";
 import {
-  ActionIcon,
+  ActionIcon, Autocomplete,
   Container,
   Overlay,
   Text,
   TextInput,
   Title
 } from "@mantine/core";
-import { IconArrowRight, IconSearch } from "@tabler/icons-react";
+import {IconArrowRight, IconSearch} from "@tabler/icons-react";
 import classes from "./HomePageHero.module.css";
+import {AreasContext} from "../context/AreasContext.jsx";
 
 export const HomePageHero = () => {
   const [query, setQuery] = useState('');
-  const navigate = useNavigate();
-
-  const handleSearch = () => {
-    if (query.trim()) {
-      navigate(`/areas?search=${encodeURIComponent(query)}`);
-    }
-  };
+  const areas = useContext(AreasContext)
+  const areasName = [...new Set(areas.map((area) => area.suburb))]
 
   return (
     <div className={classes.wrapper}>
-      <Overlay color="#000" backgroundOpacity={0.20} zIndex={1} />
+      <Overlay color="#000" backgroundOpacity={0.20} zIndex={1}/>
 
       <div className={classes.inner}>
         <Title className={classes.title}>
@@ -42,14 +38,15 @@ export const HomePageHero = () => {
         </Container>
 
         <div className={classes.controls}>
-          <TextInput
+          <Autocomplete
             value={query}
-            onChange={(event) => setQuery(event.currentTarget.value)}
+            onChange={setQuery}
             placeholder="Enter the name or postcode of your area"
+            data={areasName}
             size="xl"
             radius="xl"
             inputSize={60}
-            leftSection={<IconSearch />}
+            leftSection={<IconSearch/>}
             rightSection={
               // Copied from "Input with contained button" example in https://ui.mantine.dev/category/inputs/
 
@@ -58,12 +55,13 @@ export const HomePageHero = () => {
                 radius="xl"
                 color="blue"
                 variant="filled"
-                onClick={handleSearch}
+                onClick={() => {
+                }} // TODO
               >
-                <IconArrowRight size={18} stroke={1.5} />
+                <IconArrowRight size={18} stroke={1.5}/>
               </ActionIcon>
             }
-            classNames={{ input: classes.input }} // See https://mantine.dev/core/text-input/#styles-api
+            classNames={{input: classes.input}} // See https://mantine.dev/core/text-input/#styles-api
           />
         </div>
       </div>

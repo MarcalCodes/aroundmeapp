@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {AreasContext} from "./AreasContext";
 import axios from "axios";
 
-export const AreasProvider = ({isLoggedIn, children}) => {
+export const AreasProvider = ({children}) => {
   const [areas, setAreas] = useState([]);
 
   useEffect(() => {
@@ -15,8 +15,8 @@ export const AreasProvider = ({isLoggedIn, children}) => {
       }
     };
 
-    isLoggedIn && fetchAreas();
-  }, [isLoggedIn]);
+    fetchAreas();
+  }, []);
 
   return (
     <AreasContext.Provider value={areas}>
