@@ -10,8 +10,6 @@ const getEvent = async (id, res) => {
 }
 
 const createEvent = async (data, session, res) => {
-  // TODO:
-  //  - one postcode can map to more than 1 area 🤔
   const creatorId = session.user.id
 
   const {
@@ -19,11 +17,13 @@ const createEvent = async (data, session, res) => {
   } = data;
 
   try {
-    await Events.insert(
+    const events = await Events.insert(
       title, startsAt, endsAt, creatorId, areaId, image, addressLine1, addressLine2, addressCity, addressState, addressPostcode
     );
 
-    res.status(201).end();
+    const createdEvent = events[0]
+
+    res.status(201).json({ id: createdEvent.id });
   } catch (e) {
     console.log(e)
 
