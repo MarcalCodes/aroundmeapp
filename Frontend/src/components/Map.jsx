@@ -10,7 +10,7 @@ import "./Map.css"
 /**
  * Copied from https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react
  */
-export const Map = ({address}) => {
+export const Map = ({line1, city, state, postcode}) => {
   const markerRef = useRef(null)
   const mapRef = useRef(null)
   const mapContainerRef = useRef(null)
@@ -21,7 +21,7 @@ export const Map = ({address}) => {
   useEffect(() => {
     if (dontShowMap) return // If no Mapbox API key configured, don't load the Map
     else {
-      geocode(address.line1, address.city, address.state, address.postcode) // TODO: Move to the BE
+      geocode(line1, city, state, postcode) // TODO: Move to the BE
         .then(position => {
           mapboxgl.accessToken = MAP_BOX_API_KEY
           mapRef.current = new mapboxgl.Map({

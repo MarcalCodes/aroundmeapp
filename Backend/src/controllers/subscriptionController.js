@@ -1,18 +1,25 @@
 import * as Subscriptions from "../models/subscriptions.js"
 
-const createSubscription = async (data, res) => {
-    const { userId, areaId } = data
-    await Subscriptions.insert(userId, areaId)
-    res.status(201).end();
+const getAll = async (session, res) => {
+  const userId = session.user.id
+  const subscriptions = await Subscriptions.getAll(userId)
+  res.json(subscriptions);
 }
 
-const deleteSubscription = async (data, res) => {
-    const { userId, areaId } = data
-    await Subscriptions.remove(userId, areaId)
-    res.status(200).end();
+const createSubscription = async (areaId, session, res) => {
+  const userId = session.user.id
+  await Subscriptions.insert(userId, areaId)
+  res.status(201).end();
+}
+
+const deleteSubscription = async (areaId, session, res) => {
+  const userId = session.user.id
+  await Subscriptions.remove(userId, areaId)
+  res.status(200).end();
 }
 
 export {
-    createSubscription,
-    deleteSubscription
+  getAll,
+  createSubscription,
+  deleteSubscription
 }

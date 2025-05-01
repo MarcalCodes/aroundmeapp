@@ -76,15 +76,6 @@ export const EventsCarousel = ({suburb}) => {
               {suburb ? suburb : "<area>"}
             </Text>
           </Title>
-          <Flex align="center" justify="center" mb={10} wrap="wrap" gap="sm">
-            <Button
-              size={mobile ? "compact-sm" : "compact-sm"}
-              variant= "subtle"
-              radius="md"
-            >
-              Subscribe
-            </Button>
-          </Flex>
         </Group>
       </Center>
       <Carousel

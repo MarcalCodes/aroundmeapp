@@ -4,6 +4,7 @@ import {
   Container,
   Group,
   keys,
+  Loader,
   Pagination,
   ScrollArea,
   Table,
@@ -14,14 +15,13 @@ import {
   useMantineTheme
 } from "@mantine/core";
 import {useMediaQuery} from "@mantine/hooks";
-import {useState, useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AreasContext} from "../context/AreasContext.jsx";
 import cx from 'clsx';
 import classes from './AreasList.module.css'
 import {IconChevronDown, IconChevronUp, IconSearch, IconSelector} from "@tabler/icons-react";
-import { useSearchParams } from "react-router-dom";
-
-
+import {useSearchParams} from "react-router-dom";
+import axios from "axios";
 
 
 function filterData(areas, search) {
@@ -81,13 +81,59 @@ export const AreasList = () => {
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
 
+  const fetchUserSubscriptions = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/subscriptions`, {withCredentials: true})
+      return response.data
+    } catch (e) {
+      console.log(`Failed to fetch user subscriptions: ${e}`)
+    }
+  }
+
+  const addSubscription = async (areaId) => {
+    try {
+      await axios.post(`http://localhost:3000/subscriptions/${areaId}`, {}, {withCredentials: true})
+    } catch (e) {
+      console.log(`Failed to add subscription to area ${areaId}: ${e}`)
+    }
+  }
+
+  const removeSubscription = async (areaId) => {
+    try {
+      await axios.delete(`http://localhost:3000/subscriptions/${areaId}`, {withCredentials: true})
+    } catch (e) {
+      console.log(`Failed to remove subscription to area ${areaId}: ${e}`)
+    }
+  }
+
   // Subscriptions management
   // Copied from "Table with selection" example in https://ui.mantine.dev/category/tables/
-  const [subscriptions, setSubscriptions] = useState([]);
-  const subscribe = (postcode) =>
-    setSubscriptions((current) =>
-      current.includes(postcode) ? current.filter((item) => item !== postcode) : [...current, postcode]
-    );
+  const [subscriptions, setSubscriptions] = useState(undefined);
+  const isLoadingSubscriptions = subscriptions === undefined
+
+  // Fetch the user subscriptions
+  useEffect(() => {
+    fetchUserSubscriptions().then((subs) => {
+      console.log("fetched subs", subs)
+      setSubscriptions(subs.map((area) => area.id))
+    })
+  }, [])
+
+  const toggleSubscription = async (area) => {
+    console.log("area", area)
+    console.log("subscriptions", subscriptions)
+
+    const areaId = area.id
+    const mustRemove = subscriptions.includes(areaId)
+    console.log("mustRemove", mustRemove)
+    if (mustRemove) {
+      setSubscriptions((current) => current.filter((item) => item !== areaId))
+      await removeSubscription(areaId)
+    } else {
+      setSubscriptions((current) => [...current, areaId])
+      await addSubscription(areaId)
+    }
+  }
 
   // Sorting and filtering management
   // Copied from "Table with search and sort" example in https://ui.mantine.dev/category/tables/
@@ -121,13 +167,13 @@ export const AreasList = () => {
     setFilteredAndSortedData(sortAndFilterData(areas, sortBy, value, reverseSortDirection));
   }
 
-  const rows = (filteredAndSortedData || []).map((area, index) => {
-    const selected = subscriptions.includes(area.postcode);
+  const makeRows = () => (filteredAndSortedData || []).map((area, index) => {
+    const selected = subscriptions.includes(area.id);
 
     return (
       <Table.Tr key={index} className={cx({[classes.rowSelected]: selected})}>
         <Table.Td>
-          <Checkbox checked={selected} onChange={() => subscribe(area.postcode)}/>
+          <Checkbox checked={selected} onChange={async () => await toggleSubscription(area)}/>
         </Table.Td>
         <Table.Td>{area.suburb}</Table.Td>
         <Table.Td>{area.postcode}</Table.Td>
@@ -135,6 +181,8 @@ export const AreasList = () => {
       </Table.Tr>
     );
   });
+
+  const rows = isLoadingSubscriptions ? [] : makeRows()
 
   const paginatedRows = () => {
     const start = (activePage - 1) * numberOfElementPerPage
@@ -153,64 +201,66 @@ export const AreasList = () => {
   }
 
   return (
-    <Container fluid my={10} mx={20}>
-      <Title order={mobile ? 2 : 1} mb={50}>My Areas</Title>
+    isLoadingSubscriptions
+      ? <Center mt={200}><Loader color="blue"/></Center>
+      : <Container fluid my={10} mx={20}>
+        <Title order={mobile ? 2 : 1} mb={50}>My Areas</Title>
 
-      <ScrollArea mb={20}>
-        <TextInput
-          placeholder="Search by any field"
-          mb="md"
-          leftSection={<IconSearch size={16} stroke={1.5}/>}
-          value={search}
-          onChange={handleSearchChange}
+        <ScrollArea mb={20}>
+          <TextInput
+            placeholder="Search by any field"
+            mb="md"
+            leftSection={<IconSearch size={16} stroke={1.5}/>}
+            value={search}
+            onChange={handleSearchChange}
+          />
+          <Table highlightOnHover miw={300} verticalSpacing="xs">
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th w={40}></Table.Th>
+                <SortingTh
+                  sorted={sortBy === 'suburb'}
+                  reversed={reverseSortDirection}
+                  onSort={() => setSorting('suburb')}
+                >
+                  Suburb
+                </SortingTh>
+                <SortingTh
+                  sorted={sortBy === 'postcode'}
+                  reversed={reverseSortDirection}
+                  onSort={() => setSorting('postcode')}
+                >
+                  Postcode
+                </SortingTh>
+                <SortingTh
+                  sorted={sortBy === 'state'}
+                  reversed={reverseSortDirection}
+                  onSort={() => setSorting('state')}
+                >
+                  State
+                </SortingTh>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              {
+                rows.length > 0 ? (
+                  paginatedRows()
+                ) : (
+                  <Table.Tr>
+                    <Table.Td>
+                      <Text fw={500} ta="center">Nothing found</Text>
+                    </Table.Td>
+                  </Table.Tr>
+                )
+              }
+            </Table.Tbody>
+          </Table>
+        </ScrollArea>
+        <Pagination
+          total={numberOfPages()}
+          value={activePage}
+          onChange={setPage}
         />
-        <Table highlightOnHover miw={300} verticalSpacing="xs">
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th w={40}></Table.Th>
-              <SortingTh
-                sorted={sortBy === 'suburb'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('suburb')}
-              >
-                Suburb
-              </SortingTh>
-              <SortingTh
-                sorted={sortBy === 'postcode'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('postcode')}
-              >
-                Postcode
-              </SortingTh>
-              <SortingTh
-                sorted={sortBy === 'state'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('state')}
-              >
-                State
-              </SortingTh>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {
-              rows.length > 0 ? (
-                paginatedRows()
-              ) : (
-                <Table.Tr>
-                  <Table.Td>
-                    <Text fw={500} ta="center">Nothing found</Text>
-                  </Table.Td>
-                </Table.Tr>
-              )
-            }
-          </Table.Tbody>
-        </Table>
-      </ScrollArea>
-      <Pagination
-        total={numberOfPages()}
-        value={activePage}
-        onChange={setPage}
-      />
-    </Container>
+      </Container>
   )
 }
