@@ -20,10 +20,10 @@ import {useForm} from '@mantine/form';
 import classes from "../components/AuthenticationForm.module.css";
 import axios from "axios";
 import {useNavigate} from "react-router";
+import {errorNotification, successNotification} from "../utils/notifications.js";
 
 export const AuthenticationForm = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const form = useForm({
@@ -39,7 +39,6 @@ export const AuthenticationForm = () => {
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    setError(null);
 
     try {
       await axios.post('http://localhost:3000/users', {
@@ -49,14 +48,15 @@ export const AuthenticationForm = () => {
         password: values.password,
       });
 
-      console.log('User created successfully!');
+      successNotification('Account created successfully')
+
       navigate("/login");
     } catch (error) {
       console.error('Error creating user', error);
       if (error.response && error.response.status === 409) {
-        setError('User with this email already exists');
+        errorNotification('User with this email already exists');
       } else {
-        setError('Something went wrong, please try again.');
+        errorNotification('Something went wrong, please try again.');
       }
     } finally {
       setLoading(false);
@@ -127,12 +127,6 @@ export const AuthenticationForm = () => {
             label="I agree to sell my soul and privacy to this corporation"
             {...form.getInputProps('termsOfService', {type: 'checkbox'})}
           />
-
-          {error && (
-            <Text c="red" size="sm" mt="sm">
-              {error}
-            </Text>
-          )}
 
           <Button fullWidth mt="xl" type="submit">
             Register

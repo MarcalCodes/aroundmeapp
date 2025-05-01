@@ -5,23 +5,10 @@ import {IconLogin, IconLogout, IconUser} from '@tabler/icons-react';
 import {AppShell, ScrollArea} from '@mantine/core';
 import classes from './NavBarMobile.module.css';
 import {useNavigate} from "react-router";
-import axios from "axios";
 
-export const NavBarMobile = ({links}) => {
+export const NavBarMobile = ({links, isLoggedIn, logout}) => {
   const [active, setActive] = useState('Home');
   const navigate = useNavigate();
-
-  const logout = async () => {
-    try {
-      await axios.post('http://localhost:3000/logout', {}, {
-        withCredentials: true,
-      });
-      console.log("User logged out (mobile)");
-    } catch (err) {
-      console.error("Mobile logout failed:", err.message);
-    }
-  };
-
 
   const elements = links.map((link) => (
     <a
@@ -47,28 +34,37 @@ export const NavBarMobile = ({links}) => {
       </AppShell.Section>
 
       <AppShell.Section className={classes.footer}>
-        <a href="/login" className={classes.link} onClick={(event) => {
-          event.preventDefault()
-          navigate("/login")
-        }}>
-          <IconLogin className={classes.linkIcon} stroke={1.5}/>
-          <span>Login</span>
-        </a>
-        <a href="/sign-up" className={classes.link} onClick={(event) => {
-          event.preventDefault()
-          navigate("/sign-up")
-        }}>
-          <IconUser className={classes.linkIcon} stroke={1.5}/>
-          <span>Create an account</span>
-        </a>
-        <a href="/logout" className={classes.link} onClick={(event) => {
-          event.preventDefault()
-          logout()
-          navigate("/")
-        }}>
-          <IconLogout className={classes.linkIcon} stroke={1.5}/>
-          <span>Logout</span>
-        </a>
+        {
+          !isLoggedIn &&
+          <>
+            <a href="/login" className={classes.link} onClick={(event) => {
+              event.preventDefault()
+              navigate("/login")
+            }}>
+              <IconLogin className={classes.linkIcon} stroke={1.5}/>
+              <span>Login</span>
+            </a>
+            <a href="/sign-up" className={classes.link} onClick={(event) => {
+              event.preventDefault()
+              navigate("/sign-up")
+            }}>
+              <IconUser className={classes.linkIcon} stroke={1.5}/>
+              <span>Create an account</span>
+            </a>
+          </>
+        }
+        {
+          isLoggedIn &&
+          <a href="/logout" className={classes.link} onClick={(event) => {
+            event.preventDefault()
+            logout()
+            navigate("/")
+          }}>
+            <IconLogout className={classes.linkIcon} stroke={1.5}/>
+            <span>Logout</span>
+          </a>
+        }
+
       </AppShell.Section>
     </nav>
   );

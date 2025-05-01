@@ -10,13 +10,13 @@ import {EventUpdate} from "./pages/EventUpdate.jsx";
 import {AreasList} from "./pages/AreasList.jsx";
 import {ForgotPassword} from "./pages/ForgotPassword.jsx";
 
-export const Router = () => {
+export const Router = ({isLoggedIn, user, setUser}) => {
   return (
     <Routes>
       <Route index element={<Home/>}/>
 
       {/* Session management */}
-      <Route path="login" element={<Login/>}/>
+      <Route path="login" element={<Login setUser={setUser}/>}/>
       <Route path="sign-up" element={<SignUp/>}/>
       <Route path="forgot-password" element={<ForgotPassword/>}/>
 

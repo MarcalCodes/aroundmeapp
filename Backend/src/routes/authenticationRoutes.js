@@ -15,8 +15,6 @@ router.post('/logout', authenticationController.logout);
 
 router.get('/me', requireAuth, (req, res) => {
   res.status(200).json({ user: req.session.user });
-
-
 });
 
 export default router;

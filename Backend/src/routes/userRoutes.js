@@ -1,12 +1,13 @@
 import express from 'express'
 import * as userController from "../controllers/userController.js"
+import {requireAuth} from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 /**
  * GET /users
  */
-router.get('/', async (req, res) => {
+router.get('/', requireAuth, async (req, res) => {
     const users = await userController.getUsers()
     res.json(users)
 })
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 /**
  * GET /users/:id
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', requireAuth, async (req, res) => {
     await userController.getUser(req.params.id, res)
 })
 
@@ -28,7 +29,7 @@ router.post('/', async (req, res) => {
 /**
  * Update /users/:id
  */
-router.put('/:id', async (req, res) => {
+router.put('/:id', requireAuth, async (req, res) => {
     await userController.updateUser(req.params.id, req.body, res)
 })
 
@@ -37,7 +38,7 @@ router.put('/:id', async (req, res) => {
  *
  * "hard delete"
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAuth,  async (req, res) => {
     await userController.deleteUser(req.params.id, res)
 })
 
@@ -46,7 +47,7 @@ router.delete('/:id', async (req, res) => {
  *
  * Get all area the user is subscribed to
  */
-router.get('/:id/areas', async (req, res) => {
+router.get('/:id/areas', requireAuth, async (req, res) => {
     await userController.allAreasOfUser(req.params.id, res)
 })
 
@@ -55,7 +56,7 @@ router.get('/:id/areas', async (req, res) => {
  *
  * Get all events created by the user
  */
-router.get('/:id/events', async (req, res) => {
+router.get('/:id/events', requireAuth,  async (req, res) => {
     await userController.allEventsOfUsers(req.params.id, res)
 })
 
