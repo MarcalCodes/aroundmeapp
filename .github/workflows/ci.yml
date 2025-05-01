@@ -44,5 +44,6 @@ jobs:
       - name: Run integration tests
         uses: madhead/intellij-http-client-action@latest
         with:
+          insecure: true
           files: |-
             ./Backend/login_tests.http
