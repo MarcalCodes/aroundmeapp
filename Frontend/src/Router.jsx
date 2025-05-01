@@ -21,7 +21,7 @@ export const Router = ({isLoggedIn, user, setUser}) => {
       <Route path="forgot-password" element={<ForgotPassword/>}/>
 
       {/* Events management */}
-      <Route path="events" element={<EventsList/>}/>
+      <Route path="events" element={<EventsList user={user}/>}/>
       <Route path="events/new" element={<EventCreate/>}/>
       <Route path="events/:id" element={<EventDetails user={user}/>}/>
       <Route path="events/:id/edit" element={<EventUpdate/>}/>

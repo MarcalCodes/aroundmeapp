@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router";
-import {Button, Container, Flex, Group, Loader, Stack, Text, Title, useMantineTheme} from "@mantine/core";
+import {Button, Center, Container, Flex, Group, Loader, Stack, Text, Title, useMantineTheme} from "@mantine/core";
 import {useMediaQuery} from "@mantine/hooks";
 import {Map} from "../components/Map.jsx";
 import {formatDate} from "../utils/dates.js";
@@ -21,7 +21,6 @@ export const EventDetails = ({user}) => {
     async function fetchEvent() {
       try {
         const response = await axios.get(`http://localhost:3000/events/${id}`, {withCredentials: true})
-        console.log("event", response.data)
         setEvent(response.data)
       } catch (e) {
         console.log(`Error fetching the event ${id} details: ${e}`)
@@ -34,7 +33,7 @@ export const EventDetails = ({user}) => {
 
   return (
     !event
-      ? <Loader color="blue"/>
+      ? <Center mt={200}><Loader color="blue"/></Center>
       : <>
         <Container fluid my={10} mx={20} h={500}>
           <Group grow mb={20}>

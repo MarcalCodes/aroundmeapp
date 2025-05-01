@@ -5,21 +5,30 @@ import {requireAuth} from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 /**
- * POST /subscriptions
+ * GET /subscriptions
  *
- * A user subscribe to an Area
+ * Return all the subscriptions of a User
  */
-router.post('/', requireAuth, async (req, res) => {
-    await subscriptionController.createSubscription(req.body, res)
+router.get('/', requireAuth, async (req, res) => {
+    await subscriptionController.getAll(req.session, res)
 })
 
 /**
- * Delete /subscriptions
+ * POST /subscriptions/:area_id
+ *
+ * A user subscribe to an Area
+ */
+router.post('/:area_id', requireAuth, async (req, res) => {
+    await subscriptionController.createSubscription(req.params.area_id, req.session, res)
+})
+
+/**
+ * Delete /subscriptions/:area_id
  *
  * A user remove its subscription to an Area - "hard delete"
  */
-router.delete('/', requireAuth, async (req, res) => {
-    await subscriptionController.deleteSubscription(req.body, res)
+router.delete('/:area_id', requireAuth, async (req, res) => {
+    await subscriptionController.deleteSubscription(req.params.area_id, req.session, res)
 })
 
 export default router;
