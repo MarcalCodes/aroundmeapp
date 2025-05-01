@@ -34,28 +34,19 @@ function filterData(areas, search) {
   );
 }
 
-const compareStrings = (a, b) => a.localeCompare(b)
-
-/**
- * Comes from https://stackoverflow.com/a/1063027/29476271
- */
-const compareNumbers = (a, b) => a - b
-
 function sortAndFilterData(data, sortBy, search, reversed) {
   if (!data || data.length === 0) return [];
 
-  const type = typeof data[0][sortBy]
-  const compare = type === "number" ? compareNumbers : compareStrings
   const noNeedForSorting = !sortBy
 
   if (noNeedForSorting) return filterData(data, search);
   else {
     const sortedData = data.toSorted((a, b) => {
       if (reversed) {
-        return compare(b[sortBy], a[sortBy]);
+        return b[sortBy].localeCompare(a[sortBy]);
       }
 
-      return compare(a[sortBy], b[sortBy]);
+      return a[sortBy].localeCompare(b[sortBy]);
     })
 
     return filterData(sortedData, search);
@@ -141,7 +132,6 @@ export const AreasList = () => {
         <Table.Td>{area.suburb}</Table.Td>
         <Table.Td>{area.postcode}</Table.Td>
         <Table.Td>{area.state}</Table.Td>
-        <Table.Td>{area.subscribed}</Table.Td>
       </Table.Tr>
     );
   });
@@ -198,13 +188,6 @@ export const AreasList = () => {
                 onSort={() => setSorting('state')}
               >
                 State
-              </SortingTh>
-              <SortingTh
-                sorted={sortBy === 'subscribed'}
-                reversed={reverseSortDirection}
-                onSort={() => setSorting('subscribed')}
-              >
-                # of Subscribers
               </SortingTh>
             </Table.Tr>
           </Table.Thead>
