@@ -31,6 +31,9 @@ jobs:
           # Default: ./docker-compose.yml
           compose-file: "./Backend/docker-compose.yml"
 
+      - name: Start application
+        run: npm run dev
+
       # See:
       #  - https://blog.jetbrains.com/idea/2022/12/http-client-cli-run-requests-and-tests-on-ci/#running-requests-from-the-terminal
       #  - https://github.com/marketplace/actions/intellij-http-client-action
@@ -38,4 +41,4 @@ jobs:
         uses: madhead/intellij-http-client-action@latest
         with:
           files: |-
-            tests.http
+            ./Backend/login_tests.http
