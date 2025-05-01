@@ -34,10 +34,8 @@ jobs:
       - name: Start application
         run: |
           cd Backend
-          mv .env.ci .env
           npm i
-          npm run dev &
-          sleep 5
+          npm run server_ci
 
       # See:
       #  - https://blog.jetbrains.com/idea/2022/12/http-client-cli-run-requests-and-tests-on-ci/#running-requests-from-the-terminal
