@@ -46,7 +46,7 @@ export const AuthenticationForm = () => {
         firstname: values.firstName,
         lastname: values.lastName,
         password: values.password,
-      });
+      }, {withCredentials: true});
 
       successNotification('Account created successfully')
 
