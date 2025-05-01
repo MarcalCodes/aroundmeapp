@@ -35,7 +35,7 @@ subscribed to this area
 3. (Optional) If you want to see the Map(s) in the application, you need to set the `VITE_MAPBOX_KEY` environment variable in the `.env` file with a Mapbox API key     
    See https://console.mapbox.com/account/access-tokens/
 
-## Running and migrating the DB
+## Backend - Running and migrating the DB
 
 ```bash
 # Go in the Backend project
@@ -51,12 +51,19 @@ npm run db_migrate
 npm run db_down
 ```
 
-## Running the server locally
-
-// TODO
+## Backend - Running the server locally
 
 In a bash console:
 ```bash
+npm install
+npm run dev
 ```
 
+## Frontend - Running the app locally
+
+In a bash console:
+```bash
+npm install
+npm run dev
+```
 
