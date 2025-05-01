@@ -24,14 +24,16 @@ export const login = async (req, res) => {
       return res.status(401).json({message: 'Invalid email or password.'});
     }
 
-    req.session.user = {
+    const userSession = {
       id: user.id,
       email: user.email,
       firstname: user.firstname,
       lastname: user.lastname
-    };
+    }
 
-    res.status(200).json({message: 'Login successful.'});
+    req.session.user = userSession;
+
+    res.status(200).json(userSession);
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({message: 'Internal server error.'});

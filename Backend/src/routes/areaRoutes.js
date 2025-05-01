@@ -1,12 +1,13 @@
 import express from 'express'
 import * as areaController from "../controllers/areaController.js";
+import {requireAuth} from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 /**
  * GET /areas
  */
-router.get('/', async (req, res) => {
+router.get('/', requireAuth, async (req, res) => {
     const areas = await areaController.getAreas()
     res.json(areas)
 })
@@ -14,14 +15,14 @@ router.get('/', async (req, res) => {
 /**
  * GET /areas/:id
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', requireAuth, async (req, res) => {
     await areaController.getArea(req.params.id, res)
 })
 
 /**
  * POST /areas
  */
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
     await areaController.createArea(req.body, res)
 })
 
@@ -30,7 +31,7 @@ router.post('/', async (req, res) => {
  *
  * Get all the users subscribed to this area
  */
-router.get('/:id/users', async (req, res) => {
+router.get('/:id/users', requireAuth, async (req, res) => {
     await areaController.getAllUsersOfArea(req.params.id, res)
 })
 
@@ -39,7 +40,7 @@ router.get('/:id/users', async (req, res) => {
  *
  * Get all the events happening to this area
  */
-router.get('/:id/events', async (req, res) => {
+router.get('/:id/events', requireAuth, async (req, res) => {
     await areaController.getAllEventsOfArea(req.params.id, res)
 })
 

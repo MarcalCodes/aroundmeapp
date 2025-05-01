@@ -1,9 +1,9 @@
 import {AuthenticationForm} from "../components/AuthenticationForm.jsx";
 
-export const Login = () => {
+export const Login = ({setUser}) => {
   return (
     <>
-      <AuthenticationForm />
+      <AuthenticationForm setUser={setUser} />
     </>
   )
 }

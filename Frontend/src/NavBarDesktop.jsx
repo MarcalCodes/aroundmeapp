@@ -1,22 +1,10 @@
 // Copied from https://ui.mantine.dev/component/navbar-simple/
 
 import {useState} from 'react';
-import {IconCalendarEvent, IconHeart, IconHome, IconLogin, IconLogout, IconMap, IconUser} from '@tabler/icons-react';
+import {IconLogin, IconLogout, IconUser} from '@tabler/icons-react';
 import {Button, Divider, Group} from '@mantine/core';
 import classes from './NavBarDesktop.module.css';
 import {useNavigate} from "react-router";
-import axios from "axios";
-
-const logout = async () => {
-  try {
-    await axios.post('http://localhost:3000/logout', {}, {
-      withCredentials: true,
-    });
-    console.log('User logged out');
-  } catch (err) {
-    console.error('Logout failed:', err.message);
-  }
-};
 
 const NavBarButton = ({navigate, active, setActive, link}) => {
   return (
@@ -65,7 +53,7 @@ const SignUpButton = ({navigate, setActive, active}) =>
     }}
   />
 
-const LogoutButton = ({navigate, setActive}) => {
+const LogoutButton = ({navigate, setActive, logout}) => {
   const handleLogout = async (e) => {
     e.preventDefault();
     await logout();
@@ -88,7 +76,7 @@ const LogoutButton = ({navigate, setActive}) => {
   );
 };
 
-export const NavBarDesktop = ({links}) => {
+export const NavBarDesktop = ({links, isLoggedIn, logout}) => {
   const [active, setActive] = useState('Home');
   const navigate = useNavigate();
 
@@ -106,9 +94,18 @@ export const NavBarDesktop = ({links}) => {
     <Group gap={1} visibleFrom="sm" wrap="nowrap">
       {buttons}
       <Divider mx={5} orientation="vertical"/>
-      <LoginButton navigate={navigate} setActive={setActive} active={active}/>
-      <SignUpButton navigate={navigate} setActive={setActive} active={active}/>
-      <LogoutButton navigate={navigate} setActive={setActive}/>
+      {
+        !isLoggedIn &&
+        <>
+          <LoginButton navigate={navigate} setActive={setActive} active={active}/>
+          <SignUpButton navigate={navigate} setActive={setActive} active={active}/>
+        </>
+      }
+      {
+        isLoggedIn &&
+        <LogoutButton navigate={navigate} setActive={setActive} logout={logout}/>
+      }
+
     </Group>
   );
 }

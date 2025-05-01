@@ -32,7 +32,7 @@ const createUser = async (data, res) => {
     } catch (error) {
         const isDuplicate = error.message === "duplicate key value violates unique constraint \"user_email_key\""
         if (isDuplicate) {
-            res.status(400).json({ message: "This email address is already used" })
+            res.status(409).json({ message: "This email address is already used" })
         } else {
             console.error('Error creating user:', error);
             res.status(500).send('Internal Server Error');

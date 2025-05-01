@@ -13,15 +13,14 @@ import authenticationRoutes from './src/routes/authenticationRoutes.js';
 const app = express();
 const port = 3000;
 
+const REDIS_URL = process.env.REDIS_URL
+
 /*
 * Comes from see: "https://stackoverflow.com/questions/78279141/how-to-change-body-bg-color-for-light-and-dark-mode-mantine-ui/78547932#78547932"
 * Comes from see: "https://www.npmjs.com/package/connect-redis"
 * Comes from see: "https://upstash.com/docs/redis/tutorials/express_session"
 */
-const redisClient = new Redis("rediss://default:ATxwAAIjcDE1MDUzOTg0ZTE0YWQ0MjVjYmRjNWY1MzNmYjM2MjViMnAxMA@sweeping-marmot-15472.upstash.io:6379", {
-  tls: {}
-});
-
+const redisClient = new Redis(REDIS_URL);
 
 app.use(cors({
   origin: 'http://localhost:5173',

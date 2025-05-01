@@ -6,18 +6,37 @@ import {Router} from "./Router.jsx";
 import {NavBarMobile} from "./NavBarMobile.jsx";
 import {NavBarDesktop} from "./NavBarDesktop.jsx";
 import {IconCalendarEvent, IconHome, IconMap} from "@tabler/icons-react";
+import {useState} from "react";
+import axios from "axios";
+import {errorNotification, successNotification} from "./utils/notifications.js";
 
 
-const links = [
-  {path: '/', label: 'Home', icon: IconHome},
-  {path: '/events', label: 'My Events', icon: IconCalendarEvent},
-  {path: '/areas', label: 'My Areas', icon: IconMap},
+const allLinks = [
+  {path: '/', label: 'Home', icon: IconHome, requireLogin: false},
+  {path: '/events', label: 'My Events', icon: IconCalendarEvent, requireLogin: true},
+  {path: '/areas', label: 'My Areas', icon: IconMap, requireLogin: true},
 ];
 
 
 const App = () => {
   const [opened, {toggle}] = useDisclosure();
   const navigate = useNavigate();
+  const [user, setUser] = useState(undefined);
+
+  const isLoggedIn = user !== undefined
+
+  const logout = async () => {
+    try {
+      await axios.post('http://localhost:3000/logout', {}, {withCredentials: true});
+      setUser(undefined)
+      successNotification("See you soon!")
+    } catch (err) {
+      console.error("Logout failed:", err);
+      errorNotification("Something went wrong!")
+    }
+  };
+
+  const links = allLinks.filter((link) => link.requireLogin && !isLoggedIn ? false : true)
 
   return (
     <AppShell
@@ -34,18 +53,18 @@ const App = () => {
             </UnstyledButton>
           </Flex>
           <Flex gap="xs" justify="flex-end" direction="row" wrap="nowrap">
-            <NavBarDesktop links={links}/>
+            <NavBarDesktop links={links} isLoggedIn={isLoggedIn} logout={logout}/>
             <ThemeButton/>
           </Flex>
         </Group>
       </AppShell.Header>
 
       <AppShell.Navbar>
-        <NavBarMobile links={links}/>
+        <NavBarMobile links={links} isLoggedIn={isLoggedIn} logout={logout}/>
       </AppShell.Navbar>
 
       <AppShell.Main>
-        <Router/>
+        <Router isLoggedIn={isLoggedIn} user={user} setUser={setUser}/>
       </AppShell.Main>
       <AppShell.Footer>
         <Flex justify="center" align="center">
