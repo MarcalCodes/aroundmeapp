@@ -1,0 +1,102 @@
+# TODO:
+#  - Add explainations
+
+### Get all users - Before
+GET http://localhost:3000/users
+
+> {%
+  client.test("Contains 0 user", function () {
+    client.assert(response.body.length === 0)
+  })
+%}
+
+### Create a new user - valid case
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "email": "Ingrid@example.com",
+  "firstname": "Ingrid",
+  "lastname": "Marcal",
+  "password": "superpassword123"
+}
+
+> {%
+  client.test("Response status is 201", function () {
+    client.assert(response.status === 201)
+  })
+%}
+
+### Create a new user - invalid case - duplicate user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "email": "Ingrid@example.com",
+  "firstname": "Toto",
+  "lastname": "Tata",
+  "password": "another passord"
+}
+
+> {%
+  client.test("Response status should be 400", function () {
+    client.assert(response.status === 400, "Incorrect status")
+    client.assert(response.body.message === "This email address is already used", "Incorrect message")
+  })
+%}
+
+### Get all users - After
+GET http://localhost:3000/users
+
+> {%
+  client.test("Contains 1 user", function () {
+    client.assert(response.body.length === 1)
+  })
+%}
+
+### Test login - valid case
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "email": "Ingrid@example.com",
+  "password": "superpassword123"
+}
+
+> {%
+  client.test("login works for existing users", function () {
+    client.assert(response.status === 200)
+  })
+%}
+
+### Test login - invalid case - email doesn't exist
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "email": "dontexist@example.com",
+  "password": "superpassword123"
+}
+
+> {%
+  client.test("login returns 401 and error message", function () {
+    client.assert(response.status === 401, "Invalid status code")
+    client.assert(response.body.message === "Invalid email or password.", "Invalid message")
+  })
+%}
+
+### Test login - invalid case - invalid password
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "email": "Ingrid@example.com",
+  "password": "invalidpassword"
+}
+
+> {%
+  client.test("login returns 401 and error message", function () {
+    client.assert(response.status === 401, "Invalid status code")
+    client.assert(response.body.message === "Invalid email or password.", "Invalid message")
+  })
+%}
