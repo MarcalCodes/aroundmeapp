@@ -53,7 +53,8 @@ npm run db_down
 
 ## Backend - Running the server locally
 
-In a bash console:
+1. Copy the `.env.template` file and rename your copy to `.env`
+2. In a bash console:
 ```bash
 npm install
 npm run dev
@@ -61,6 +62,9 @@ npm run dev
 
 ## Frontend - Running the app locally
 
+1. Copy the `.env.template` file and rename your copy to `.env`
+2. (Optional) Provide a Mapbox API key in the `.env` file so that the maps will load
+3. In a bash console:
 In a bash console:
 ```bash
 npm install
