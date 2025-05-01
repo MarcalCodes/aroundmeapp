@@ -172,6 +172,14 @@ ALTER TABLE ONLY public.area
 
 
 --
+-- Name: area area_suburb_state_postcode_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.area
+    ADD CONSTRAINT area_suburb_state_postcode_key UNIQUE (suburb, state, postcode);
+
+
+--
 -- Name: event event_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -258,4 +266,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250427072551'),
     ('20250429044158'),
     ('20250430152902'),
-    ('20250501052354');
+    ('20250501052354'),
+    ('20250501144226');
